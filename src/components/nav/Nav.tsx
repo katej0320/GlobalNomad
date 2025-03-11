@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
-import styles from "./styles.module.css";
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import styles from "./styles.module.css";
 import NavProfileCard from "./NavProfileCard";
 
 export default function Nav() {
