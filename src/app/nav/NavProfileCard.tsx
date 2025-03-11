@@ -53,6 +53,9 @@ export default function NavProfileCard() {
             예약 현황
           </Link>
         </li>
+        <li className={styles.logoutBtn}>
+          로그아웃
+        </li>
       </ul>
     </div>
   );
