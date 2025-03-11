@@ -66,7 +66,11 @@ export default function Nav() {
               alt="프로필 이미지"
             />
             <p className={styles.nickname}>닉네임</p>
-            {isProfileCard && <NavProfileCard />}
+            <div className={`${styles.dropdown}  ${
+                  isProfileCard ? styles.active : ""
+                }`}>
+              {isProfileCard && <NavProfileCard />}
+            </div>
           </div>
         </div>
       </div>
