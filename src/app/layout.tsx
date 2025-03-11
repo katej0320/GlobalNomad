@@ -14,7 +14,8 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head>
-        <link rel="icon" href="public/images/logo_icon.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/images/logo_icon.svg" />
       </head>
       <body>{children}</body>
     </html>
