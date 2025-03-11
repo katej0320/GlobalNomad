@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import NavProfileCard from "./NavProfileCard";
 
-export default function nav() {
+export default function Nav() {
   const [isProfileCard, setIsProfileCard] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
 
@@ -33,8 +33,8 @@ export default function nav() {
           <Link href="/">
             <Image
               src="/images/nav_globalNomad.svg"
-              width="172"
-              height="30"
+              width={172}
+              height={30}
               alt="Global Nomad"
             />
           </Link>
@@ -49,8 +49,8 @@ export default function nav() {
           <div className={styles.notice}>
             <Image
               src="/images/icon_notification.svg"
-              width="20"
-              height="20"
+              width={20}
+              height={20}
               alt="알림"
             />
           </div>
@@ -61,11 +61,11 @@ export default function nav() {
           >
             <Image
               src="/images/no_profileImg.svg"
-              width="32"
-              height="32"
+              width={32}
+              height={32}
               alt="프로필 이미지"
             />
-            <p className={styles.nickname}>정만철</p>
+            <p className={styles.nickname}>닉네임</p>
             {isProfileCard && <NavProfileCard />}
           </div>
         </div>

@@ -13,8 +13,8 @@ export default function NavProfileCard() {
           <Link href="/mypage">
             <Image
               src="/images/icon_menu1.svg"
-              width="24"
-              height="24"
+              width={24}
+              height={24}
               alt="내 정보"
             />
             내 정보
@@ -24,8 +24,8 @@ export default function NavProfileCard() {
           <Link href="/reservation">
             <Image
               src="/images/icon_menu2.svg"
-              width="24"
-              height="24"
+              width={24}
+              height={24}
               alt="예약 내역"
             />
             예약 내역
@@ -35,8 +35,8 @@ export default function NavProfileCard() {
           <Link href="/activities">
             <Image
               src="/images/icon_menu3.svg"
-              width="24"
-              height="24"
+              width={24}
+              height={24}
               alt="내 체험 관리"
             />
             내 체험 관리
@@ -46,8 +46,8 @@ export default function NavProfileCard() {
           <Link href="">
             <Image
               src="/images/icon_menu4.svg"
-              width="24"
-              height="24"
+              width={24}
+              height={24}
               alt="예약 현황"
             />
             예약 현황
