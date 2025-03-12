@@ -1,5 +1,5 @@
 # GlobalNomad
-[대표이미지] 및 링크걸기
+[대표이미지]() 및 링크걸기
 
 <br/>
 <br/>
@@ -11,8 +11,6 @@ $ npm run dev
 $ npm run build
 $ npm run
 ```
-
-[서비스 링크 x](링크)
 
 <br/>
 <br/>
