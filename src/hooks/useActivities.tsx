@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import instance from "@/lib/api";
 import { Activities } from "@/lib/types";
+import usePaginationStore from "@/stores/usePaginationStore"; // 페이지네이션 상태 추가
 
-// API 요청 함수
-const fetchActivities = async (): Promise<Activities[]> => {
+// API 요청 - 페이지네이션
+const fetchActivities = async (page: number): Promise<Activities[]> => {
   try {
-    const response = await instance.get("/activities");
-    console.log("API 응답 데이터:", response.data); // 응답 데이터 확인
+    const response = await instance.get(`/activities?page=${page}`); // 페이지 번호
     return response.data.activities;
   } catch (error: unknown) {
     console.error("API 요청 실패:", error);
@@ -16,9 +16,11 @@ const fetchActivities = async (): Promise<Activities[]> => {
 
 // React Query 훅
 const useActivities = () => {
+  const { currentPage } = usePaginationStore(); // 현재 페이지 상태 가져오기
+
   return useQuery<Activities[]>({
-    queryKey: ["activities"],
-    queryFn: fetchActivities,
+    queryKey: ["activities", currentPage], // 페이지 번호를 queryKey에 포함
+    queryFn: () => fetchActivities(currentPage), // 페이지 번호를 인자로 전달
   });
 };
 
