@@ -3,7 +3,7 @@
   display: inline-block;
 }
 
-.toggleButton {
+.toggleBtn {
   background-color: var(--white);
   color: var(--green);
   font-size: 16px;
