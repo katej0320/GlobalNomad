@@ -10,7 +10,7 @@ const BASE_URL = "https://sp-globalnomad-api.vercel.app/12-2";
 
 // api instance
 /* 자동 데이터 파싱(JSON)
-get, post, delete 등 체인방식으로 사용 가능 (instance.get('/users')) */
+get, post, delete 등 체인방식으로 사용 가능 : instance.get('/users') */
 
 const instance: AxiosInstance = axios.create({
   baseURL: BASE_URL,

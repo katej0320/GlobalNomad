@@ -14,6 +14,15 @@ export interface tokens {
   refreshToken: string;
 }
 
+export interface Pagination {
+  currentPage: number;
+  totalPages: number;
+  pageSize: number;
+  setPageSize: (page: number) => void;
+  setPage: (page: number) => void;
+  setTotalPages: (page: number) => void;
+}
+
 /* Activities */
 
 type SubImages = {

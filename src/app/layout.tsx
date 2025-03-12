@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
-import ClientLayout from "./ClientLayout"; // ✅ Client Component
+import ClientLayout from "./ClientLayout";
 
 export const metadata: Metadata = {
   title: "GlobalNomad",
@@ -17,7 +17,7 @@ export default function RootLayout({
         <link rel="icon" href="/images/logo_icon.svg" />
       </head>
       <body>
-        <ClientLayout>{children}</ClientLayout> {/* ✅ Client Component */}
+        <ClientLayout>{children}</ClientLayout> {/* Client Component */}
       </body>
     </html>
   );
