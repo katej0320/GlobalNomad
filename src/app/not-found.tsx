@@ -16,6 +16,7 @@ export default function NotFoundPage() {
         alt="NotFound"
         width={100}
         height={100}
+        className={styles.notFoundImg}
       />
       <p className={styles.description}>
         페이지가 없거나 접근할 수 없어요
@@ -28,7 +29,7 @@ export default function NotFoundPage() {
         type={"button"}
         fontSize={"md"}
         style={buttonStyles}
-        className={styles.test}
+        className={styles.link}
       >
         홈으로 돌아가기
       </CustomButton>

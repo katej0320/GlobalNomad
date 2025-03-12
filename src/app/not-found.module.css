@@ -9,7 +9,7 @@
     padding: 100px 20px;
   }
 
-  img {
+  .notFoundImg {
     filter: opacity(0.5) drop-shadow(0 0 0 #0b3b2d);
   }
 
@@ -26,8 +26,8 @@
       color: var(--gray);
     }
   }
+}
 
-  a:hover {
-    color: inherit;
-  }
+.link:hover {
+  color: var(--white);
 }
