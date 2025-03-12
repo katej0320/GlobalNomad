@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import "@/styles/globals.css";
 
@@ -21,3 +22,4 @@ export default function RootLayout({
     </html>
   );
 }
+
