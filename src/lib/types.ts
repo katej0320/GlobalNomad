@@ -1,6 +1,6 @@
 /** 
  * 사용 방법
-  import {Reservation} from './types';
+  import {Reservation} from '@/lib//types';
   const myReservation: Reservation = {
     id: data.id,
     title: data.title,
@@ -8,6 +8,11 @@
     ...
   };
 */
+
+export interface tokens {
+  accessToken: string;
+  refreshToken: string;
+}
 
 export interface Activities {
   id?: number;

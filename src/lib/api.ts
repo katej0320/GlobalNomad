@@ -4,22 +4,22 @@ import axios, {
   InternalAxiosRequestConfig,
 } from "axios";
 import Cookies from "js-cookie";
+import { tokens } from "@/lib/types";
 
-//token type
-interface tokens {
-  accessToken: string;
-  refreshToken: string;
-}
-
-const BASE_URL = "https://sp-globalnomad-api.vercel.app";
+const BASE_URL = "https://sp-globalnomad-api.vercel.app/12-2";
 
 // api instance
-// 자동 데이터 파싱(JSON)
-// get, post, delete 등 체인방식으로 사용 가능 (instance.get('/users'))
+/* 자동 데이터 파싱(JSON)
+get, post, delete 등 체인방식으로 사용 가능 (instance.get('/users')) */
+
 const instance: AxiosInstance = axios.create({
   baseURL: BASE_URL,
   headers: {
     "Content-Type": "application/json",
+  },
+  params: {
+    method: "offset",
+    offset: 0,
   },
 });
 
@@ -52,13 +52,10 @@ instance.interceptors.response.use(
         }
 
         // refreshToken, accessToken을 사용하여 새로운 accessToken을 발급
-        const { data } = await axios.post<tokens>(
-          `${BASE_URL}/12-2/auth/tokens`,
-          {
-            refreshToken,
-            accessToken: Cookies.get("accessToken"),
-          }
-        );
+        const { data } = await axios.post<tokens>(`${BASE_URL}/auth/tokens`, {
+          refreshToken,
+          accessToken: Cookies.get("accessToken"),
+        });
 
         // 새 토큰 저장
         //localStorage.setItem("accessToken", data.accessToken);
