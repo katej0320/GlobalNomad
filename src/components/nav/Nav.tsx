@@ -52,6 +52,7 @@ export default function Nav() {
               width={20}
               height={20}
               alt="알림"
+              className={styles.iconNotice}
             />
           </div>
           <div
@@ -64,6 +65,7 @@ export default function Nav() {
               width={32}
               height={32}
               alt="프로필 이미지"
+              className={styles.noProfileImg}
             />
             <p className={styles.nickname}>닉네임</p>
             <div
