@@ -8,12 +8,21 @@ type DropdownProps<T> = {
   options: T[];
   selected: T;
   onChange: (value: T) => void;
+  dropdownClassName?: string;
+  toggleClassName?: string;
+  menuClassName?: string;
+  menuItemClassName?: string;
 };
 
 export default function Dropdown<T extends string | number>({
   options,
   selected,
   onChange,
+  // 스타일 변경을 위한 props
+  dropdownClassName,
+  toggleClassName,
+  menuClassName,
+  menuItemClassName,
 }: DropdownProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -36,9 +45,12 @@ export default function Dropdown<T extends string | number>({
   }, []);
 
   return (
-    <div className={styles.dropdown} ref={dropdownRef}>
+    <div
+      className={`${styles.dropdown} ${dropdownClassName}`}
+      ref={dropdownRef}
+    >
       <button
-        className={styles.toggleButton}
+        className={`${styles.toggleBtn} ${toggleClassName}`}
         onClick={() => setIsOpen(!isOpen)}
       >
         {selected}
@@ -47,11 +59,11 @@ export default function Dropdown<T extends string | number>({
       </button>
 
       {isOpen && (
-        <ul className={styles.menu}>
+        <ul className={`${styles.menu} ${menuClassName}`}>
           {options.map((option) => (
             <li
               key={option.toString()}
-              className={styles.menuItem}
+              className={`${styles.menuItem} ${menuItemClassName}`}
               onClick={() => {
                 onChange(option);
                 setIsOpen(false);

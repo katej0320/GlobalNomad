@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Dropdown from "@/components/Dropdown";
+// import styles from "./LandingPage.module.css";
 
 export default function Home() {
   const [selectedSort, setSelectedSort] = useState("최신순");
