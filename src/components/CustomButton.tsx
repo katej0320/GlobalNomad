@@ -3,7 +3,7 @@
 import styles from "./CustomButton.module.css";
 import Link from "next/link";
 import { ReactNode, CSSProperties } from "react";
-import "../styles/global.css";
+import "@/styles/globals.css";
 
 /**
  *

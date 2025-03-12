@@ -1,6 +1,6 @@
 import CustomButton from "../components/CustomButton";
 
-export default {
+const CustomButtonStory = {
   title: "Test/CustomButton",
   component: CustomButton,
 };
@@ -16,3 +16,5 @@ export const test = {
     },
   },
 };
+
+export default CustomButtonStory;
