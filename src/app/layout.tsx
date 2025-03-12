@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import "@/styles/globals.css";
 import ClientLayout from "./ClientLayout";
@@ -22,3 +23,4 @@ export default function RootLayout({
     </html>
   );
 }
+
