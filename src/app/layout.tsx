@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import "@/styles/globals.css";
 import ClientLayout from "./ClientLayout";
@@ -18,9 +17,8 @@ export default function RootLayout({
         <link rel="icon" href="/images/logo_icon.svg" />
       </head>
       <body>
-        <ClientLayout>{children}</ClientLayout>
+        <ClientLayout>{children}</ClientLayout> {/* Client Component */}
       </body>
     </html>
   );
 }
-
