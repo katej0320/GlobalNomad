@@ -1,9 +1,7 @@
 import usePaginationStore from "@/stores/usePaginationStore";
-<<<<<<< HEAD
-import styles from './pagination.module.css';
-=======
 import styles from "./pagination.module.css";
->>>>>>> 7eb7761ceec3cfc0d3858d29b8df9e232c26e917
+
+
 
 export default function Pagination() {
   // 한번에 5 페이지 씩 보여주게끔 설계했어요. 첫번째 페이지는 1-5, 화살표 누르면 6-10 이 보이게 했습니다.
