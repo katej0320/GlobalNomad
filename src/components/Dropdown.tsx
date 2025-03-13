@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { ChevronDown } from "lucide-react"; // 리액트 아이콘(아래화살표)
+import { ChevronDown, ChevronUp } from "lucide-react"; // 리액트 아이콘(화살표)
 import styles from "./Dropdown.module.css";
 
 type DropdownProps<T> = {
@@ -54,8 +54,8 @@ export default function Dropdown<T extends string | number>({
         onClick={() => setIsOpen(!isOpen)}
       >
         {selected}
-        {/* 아래화살표 - 리액트아이콘 사용 */}
-        <ChevronDown size={20} />
+        {/* 화살표 - 리액트아이콘 사용 */}
+        {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
       </button>
 
       {isOpen && (
