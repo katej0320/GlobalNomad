@@ -3,7 +3,7 @@
   width: 55px;
   height: 55px;
   background-color: var(--white);
-  background-image: url("./images/pagination_prev_arrow.png");
+  background-image: url("./images/pagination_arrow.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 7px 12px;
