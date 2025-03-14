@@ -1,3 +1,9 @@
+
+.container{
+  display: flex;
+  gap: 5px;
+}
+
 @media(max-width: 320px){
 
     .prevGroup {
@@ -5,7 +11,7 @@
       width: 40px;
       height: 40px;
       background-color: var(--white);
-      background-image: url("./images/pagination_arrow.png");
+      background-image: url("/images/pagination_prev_arrow.png");
       background-repeat: no-repeat;
       background-position: center center;
       background-size: 5px 9px;
@@ -16,7 +22,7 @@
       width: 40px;
       height: 40px;
       background-color: var(--white);
-      background-image: url("./images/pagination_arrow.png");
+      background-image: url("/images/pagination_arrow.png");
       background-repeat: no-repeat;
       background-position: center center;
       background-size: 5px 9px;
@@ -31,6 +37,10 @@
       background-color: var(--white);
       cursor: pointer;
       border: 1px solid var(--green);
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
     .pagebuttonactive {
@@ -41,6 +51,10 @@
       background-color: var(--green);
       border: 1px solid var(--green);
       cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
     }
@@ -51,7 +65,7 @@
       width: 55px;
       height: 55px;
       background-color: var(--white);
-      background-image: url("./images/pagination_arrow.png");
+      background-image: url("/images/pagination_prev_arrow.png");
       background-repeat: no-repeat;
       background-position: center center;
       background-size: 7px 12px;
@@ -62,7 +76,7 @@
       width: 55px;
       height: 55px;
       background-color: var(--white);
-      background-image: url("./images/pagination_arrow.png");
+      background-image: url("/images/pagination_arrow.png");
       background-repeat: no-repeat;
       background-position: center center;
       background-size: 7px 12px;
@@ -77,6 +91,10 @@
       background-color: var(--white);
       cursor: pointer;
       border: 1px solid var(--green);
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
     .pagebuttonactive {
@@ -87,4 +105,8 @@
       background-color: var(--green);
       border: 1px solid var(--green);
       cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }

@@ -32,7 +32,7 @@ export default function Pagination() {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <button
         onClick={handlePrevGroup}
         disabled={startPage === 1}
@@ -46,7 +46,10 @@ export default function Pagination() {
           className={`${styles.pagebutton} ${
             currentPage === page ? styles.pagebuttonactive : ""
           }`}
-        />
+        >
+          {page}
+          </button>
+
       ))}
       <button
         onClick={handleNextGroup}
