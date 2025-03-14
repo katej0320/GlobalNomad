@@ -1,8 +1,9 @@
-"use client";
+'use client';
 
-import { useState, useRef, useEffect } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react"; // 리액트 아이콘(화살표)
-import styles from "./Dropdown.module.css";
+import { useState, useRef } from 'react';
+import { ChevronDown, ChevronUp } from 'lucide-react'; // 리액트 아이콘(화살표)
+import styles from './Dropdown.module.css';
+import useClickOutside from '@/utils/useClickOutside';
 
 type DropdownProps<T> = {
   options: T[];
@@ -28,21 +29,7 @@ export default function Dropdown<T extends string | number>({
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // 드롭다운 바깥 클릭 시 닫기
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  useClickOutside({ ref: dropdownRef, setter: setIsOpen });
 
   return (
     <div
