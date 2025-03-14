@@ -13,5 +13,3 @@ export function useModalController() {
     setIsModalMessage: setIsModalMessage ?? (() => {}),
   };
 }
-
-
