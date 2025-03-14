@@ -1,14 +1,14 @@
-'use client';
-
 import { useQuery } from '@tanstack/react-query';
 import instance from '@/lib/api';
 import { Reservation } from '@/lib/types';
 
 // API 요청 함수
-const fetchReservation = async (): Promise<Reservation[]> => {
+const fetchReservation = async (status: string): Promise<Reservation[]> => {
   try {
-    const response = await instance.get('/activities');
-    console.log('API 응답 데이터:', response.data); // 응답 데이터 확인
+    const response = await instance.get(
+      `/my-reservations?${status && `status=${status}`}`,
+    );
+    // console.log('API 응답 데이터:', response.data); // 응답 데이터 확인
     return response.data.reservations;
   } catch (error: unknown) {
     console.error('API 요청 실패:', error);
@@ -17,11 +17,12 @@ const fetchReservation = async (): Promise<Reservation[]> => {
 };
 
 // React Query 훅
-const useReservation = () => {
+const useReservation = (status: string) => {
   return useQuery<Reservation[]>({
-    queryKey: ['reservation'],
-    queryFn: fetchReservation,
+    queryKey: ['reservation', status],
+    queryFn: () => fetchReservation(status),
   });
 };
 
 export default useReservation;
+
