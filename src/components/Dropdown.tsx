@@ -1,8 +1,10 @@
+
   "use client";
 
   import { useState, useRef, useEffect } from "react";
   import { ChevronDown, ChevronUp } from "lucide-react"; // 리액트 아이콘(화살표)
   import styles from "./Dropdown.module.css";
+
 
   type DropdownProps<T> = {
     options: T[];
@@ -27,6 +29,7 @@
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
+
     // 드롭다운 바깥 클릭 시 닫기
     useEffect(() => {
       function handleClickOutside(event: MouseEvent) {
@@ -43,6 +46,7 @@
         document.removeEventListener("mousedown", handleClickOutside);
       };
     }, []);
+
 
     return (
       <div
