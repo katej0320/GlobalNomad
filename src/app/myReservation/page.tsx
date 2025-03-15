@@ -1,11 +1,7 @@
-<<<<<<< HEAD
 'use client';
 
 import Image from 'next/image';
 import Empty from '@/components/empty/Empty';
-=======
-// import Empty from '@/components/empty/Empty';
->>>>>>> 8990d821 (chore: 불필요한 코드 주석처리 및 유틸리티 함수명 use 추가)
 import Footer from '@/components/footer/Footer';
 import ReservationList from './components/ReservationList';
 import useReservation from '@/hooks/useReservation';
