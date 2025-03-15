@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react'; // 리액트 아이콘(화살표)
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import styles from './Dropdown.module.css';
 import useClickOutside from '@/utils/useClickOutside';
 
@@ -20,11 +20,11 @@ export default function Dropdown<T extends { id: number; title: string }>({
   options,
   selected,
   onChange,
-  className,
-  dropdownClassName,
-  toggleClassName,
-  menuClassName,
-  menuItemClassName,
+  className = '', // undefined 방지
+  dropdownClassName = '',
+  toggleClassName = '',
+  menuClassName = '',
+  menuItemClassName = '',
 }: DropdownProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -33,23 +33,27 @@ export default function Dropdown<T extends { id: number; title: string }>({
 
   return (
     <div
-      className={`${styles.dropdown} ${className} ${dropdownClassName}`}
+      className={`${styles.dropdown} ${className} ${dropdownClassName}`.trim()}
       ref={dropdownRef}
     >
       <button
-        className={`${styles.toggleBtn} ${toggleClassName}`}
+        className={[styles.toggleBtn, toggleClassName]
+          .filter(Boolean)
+          .join(' ')}
         onClick={() => setIsOpen(!isOpen)}
       >
-        {selected?.title}
+        {selected?.title ?? '선택하세요'}
         {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
       </button>
 
       {isOpen && (
-        <ul className={`${styles.menu} ${menuClassName}`}>
+        <ul className={[styles.menu, menuClassName].filter(Boolean).join(' ')}>
           {options.map((option) => (
             <li
-              key={option.id} // 고유 ID 사용
-              className={`${styles.menuItem} ${menuItemClassName}`}
+              key={option.id}
+              className={[styles.menuItem, menuItemClassName]
+                .filter(Boolean)
+                .join(' ')}
               onClick={() => {
                 onChange(option);
                 setIsOpen(false);
