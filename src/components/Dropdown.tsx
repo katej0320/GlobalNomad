@@ -7,8 +7,9 @@ import useClickOutside from '@/utils/useClickOutside';
 
 type DropdownProps<T> = {
   options: T[];
-  selected: T;
+  selected: T | null;
   onChange: (value: T) => void;
+  className?: string;
   dropdownClassName?: string;
   toggleClassName?: string;
   menuClassName?: string;
@@ -19,6 +20,7 @@ export default function Dropdown<T extends { id: number; title: string }>({
   options,
   selected,
   onChange,
+  className,
   dropdownClassName,
   toggleClassName,
   menuClassName,
@@ -31,7 +33,7 @@ export default function Dropdown<T extends { id: number; title: string }>({
 
   return (
     <div
-      className={`${styles.dropdown} ${dropdownClassName}`}
+      className={`${styles.dropdown} ${className} ${dropdownClassName}`}
       ref={dropdownRef}
     >
       <button
