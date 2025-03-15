@@ -1,6 +1,6 @@
   "use client";
 
-  import { useState, useRef, useEffect } from "react";
+  import { useRef, useEffect } from "react";
   import styles from "@/components/Dropdown.module.css";
 
   type DropdownProps<T> = {
@@ -42,7 +42,7 @@
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
       };
-    }, []);
+    }, [setIsOpen]);
 
     return (
       <div

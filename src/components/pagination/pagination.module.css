@@ -41,6 +41,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      font-weight: 400;
     }
     
     .pagebuttonactive {
@@ -55,6 +56,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      font-weight: 400;
     }
     
     }
@@ -95,6 +97,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      font-weight: 400;
     }
     
     .pagebuttonactive {
@@ -109,4 +112,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      font-weight: 400;
     }
+
