@@ -15,11 +15,10 @@ type DropdownProps<T> = {
   menuItemClassName?: string;
 };
 
-export default function Dropdown<T extends string | number>({
+export default function Dropdown<T extends { id: number; title: string }>({
   options,
   selected,
   onChange,
-  // 스타일 변경을 위한 props
   dropdownClassName,
   toggleClassName,
   menuClassName,
@@ -28,7 +27,6 @@ export default function Dropdown<T extends string | number>({
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // 드롭다운 바깥 클릭 시 닫기
   useClickOutside({ ref: dropdownRef, setter: setIsOpen });
 
   return (
@@ -40,8 +38,7 @@ export default function Dropdown<T extends string | number>({
         className={`${styles.toggleBtn} ${toggleClassName}`}
         onClick={() => setIsOpen(!isOpen)}
       >
-        {selected}
-        {/* 화살표 - 리액트아이콘 사용 */}
+        {selected?.title}
         {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
       </button>
 
@@ -49,14 +46,14 @@ export default function Dropdown<T extends string | number>({
         <ul className={`${styles.menu} ${menuClassName}`}>
           {options.map((option) => (
             <li
-              key={option.toString()}
+              key={option.id} // 고유 ID 사용
               className={`${styles.menuItem} ${menuItemClassName}`}
               onClick={() => {
                 onChange(option);
                 setIsOpen(false);
               }}
             >
-              {option}
+              {option.title}
             </li>
           ))}
         </ul>
