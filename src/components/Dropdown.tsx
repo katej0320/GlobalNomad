@@ -9,7 +9,6 @@ type DropdownProps<T> = {
   options: T[];
   selected: T | null;
   onChange: (value: T) => void;
-  className?: string;
   dropdownClassName?: string;
   toggleClassName?: string;
   menuClassName?: string;
@@ -20,7 +19,6 @@ export default function Dropdown<T extends { id: number; title: string }>({
   options,
   selected,
   onChange,
-  className = '', // undefined 방지
   dropdownClassName = '',
   toggleClassName = '',
   menuClassName = '',
@@ -33,7 +31,7 @@ export default function Dropdown<T extends { id: number; title: string }>({
 
   return (
     <div
-      className={`${styles.dropdown} ${className} ${dropdownClassName}`.trim()}
+      className={`${styles.dropdown} ${dropdownClassName}`.trim()}
       ref={dropdownRef}
     >
       <button
