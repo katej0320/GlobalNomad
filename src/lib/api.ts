@@ -6,7 +6,7 @@ import axios, {
 import Cookies from "js-cookie";
 import { tokens } from "@/lib/types";
 
-const BASE_URL = 'https://sp-globalnomad-api.vercel.app/12-2';
+const BASE_URL = "https://sp-globalnomad-api.vercel.app/12-2";
 
 // api instance
 /* 자동 데이터 파싱(JSON)
@@ -19,18 +19,20 @@ const instance: AxiosInstance = axios.create({
     'Content-Type': 'application/json',
   },
   params: {
-    method: 'offset',
+    method: "offset",
     offset: 0,
   },
 });
 
+/* token 관리 */
+
 // 데이터 요청 시작시 토큰을 헤더에 담는 과정
 instance.interceptors.request.use(
   (
-    config: InternalAxiosRequestConfig /* 데이터를 가공하는 config의 타입 지정 */,
+    config: InternalAxiosRequestConfig /* 데이터를 가공하는 config의 타입 지정 */
   ) => {
-    const token = Cookies.get('accessToken'); // ssr 사용시 쿠키에서 토큰을 가져옴
-    console.log('받아온 토큰: ', token);
+    const token = Cookies.get("accessToken"); // ssr 사용시 쿠키에서 토큰을 가져옴
+    console.log("받아온 토큰: ", token);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`; // 토큰을 헤더에 포함시킴
     }
