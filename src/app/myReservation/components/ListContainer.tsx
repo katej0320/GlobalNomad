@@ -6,11 +6,8 @@ import styles from './style.module.css';
 import ModalType1 from '@/components/modal/ModalType1';
 import { useModalController } from '@/utils/useModalController';
 import ReservationItem from './ReservationItem';
-import { RESERVATION_STATUS } from '@/constants/ReservationStatus';
 
 export default function ListContainer() {
-  RESERVATION_STATUS;
-
   const router = useRouter();
 
   const handleNavigate = (activityId: string) => {
