@@ -7,5 +7,3 @@ export default function useFormatDate(dateString: string) {
     day: 'numeric',
   });
 }
-
-
