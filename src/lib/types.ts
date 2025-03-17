@@ -133,17 +133,17 @@ export interface Reservation {
 
 /* Notification */
 
-type Notifications = {
-  id?: number;
+export type Notifications = {
+  id: number;
   userId?: number;
   teamId?: number;
-  content?: string;
-  createdAt?: string;
+  content: string;
+  createdAt: string;
   updatedAt?: string;
   deletedAt?: string;
 };
 
 export interface Notification {
-  notifications: Notifications[];
+  notifications?: Notifications[];
   totalCount?: number;
 }
