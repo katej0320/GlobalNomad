@@ -11,7 +11,7 @@ interface Props {
   reservationsData: Reservation[] | undefined;
 }
 
-export default function ReservationList({ reservationsData }: Props) {
+export default function ListContainer({ reservationsData }: Props) {
   const router = useRouter();
 
   const handleNavigate = (activityId: string) => {
