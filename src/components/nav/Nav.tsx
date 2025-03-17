@@ -1,19 +1,12 @@
 'use client';
 
-<<<<<<< HEAD
 import { useRef, useState, useEffect } from 'react';
-=======
-import { useRef, useState } from 'react';
->>>>>>> dd7202e0 (chore: 컨플릭트 해결)
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './nav.module.css';
 import NavProfileCard from './NavProfileCard';
-<<<<<<< HEAD
 import NotificationModal from '../notification/NotificationModal';
-=======
 import useClickOutside from '@/utils/useClickOutside';
->>>>>>> dd7202e0 (chore: 컨플릭트 해결)
 
 export default function Nav() {
   const [isProfileCard, setIsProfileCard] = useState(false);
@@ -21,7 +14,6 @@ export default function Nav() {
   const profileRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
 
-<<<<<<< HEAD
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       // 프로필 카드 바깥 클릭 시 닫기
@@ -46,9 +38,6 @@ export default function Nav() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-=======
-  useClickOutside({ ref: profileRef, setter: setIsProfileCard });
->>>>>>> dd7202e0 (chore: 컨플릭트 해결)
 
   return (
     <nav className={styles.nav}>
