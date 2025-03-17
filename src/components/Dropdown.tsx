@@ -52,14 +52,14 @@ export default function Dropdown<
         <ul className={`${styles.menu} ${menuClassName}`}>
           {options.map((option) => (
             <li
-              key={option.value}
+              key={option.toString()}
               className={`${styles.menuItem} ${menuItemClassName}`}
               onClick={() => {
-                onChange(option.value);
+                onChange(option);
                 setIsOpen(false);
               }}
             >
-              {option.label}
+              {option}
             </li>
           ))}
         </ul>

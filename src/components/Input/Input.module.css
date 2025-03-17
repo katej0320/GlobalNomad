@@ -64,7 +64,3 @@
   transform: translateY(-50%);
   cursor: pointer;
 }
-
-.errorBorder {
-  border-color: var(--red);
-}

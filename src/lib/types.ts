@@ -1,5 +1,5 @@
 /** 
-* 사용 방법
+ * 사용 방법
   import {Reservation} from '@/lib//types';
   const myReservation: Reservation = {
     id: data.id,

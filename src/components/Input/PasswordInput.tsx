@@ -15,19 +15,7 @@ import { useState } from 'react';
  * @author 남기연 <getam101@naver.com>
  */
 
-interface PasswordInputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
-  isErrored?: boolean;
-  label?: string;
-  id: string;
-}
-
-export default function PasswordInput({
-  isErrored = false,
-  label = '비밀번호',
-  id = '',
-  ...props
-}: PasswordInputProps) {
+export default function PasswordInput({ ...props }) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const toggleVisibility = () => {
@@ -36,13 +24,12 @@ export default function PasswordInput({
 
   return (
     <div className={styles.container}>
-      <label className={styles.label} htmlFor={id}>
-        {label}
+      <label className={styles.label} htmlFor='password'>
+        비밀번호
       </label>
       <div className={styles.subContainer}>
         <input
-          id={id}
-          className={`${styles.input} ${isErrored ? styles.errorBorder : ''}`}
+          className={styles.input}
           type={isPasswordVisible ? 'text' : 'password'}
           placeholder='비밀번호를 입력해주세요'
           {...props}
