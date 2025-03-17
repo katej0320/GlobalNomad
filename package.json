@@ -24,6 +24,7 @@
     "next": "^15.2.2",
     "postcss": "^8.5.3",
     "react": "^19.0.0",
+    "react-calendar": "^5.1.0",
     "react-datepicker": "^8.2.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
