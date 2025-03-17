@@ -20,6 +20,10 @@
     "react": "^19.0.0",
     "react-datepicker": "^8.2.0",
     "react-dom": "^19.0.0",
+<<<<<<< HEAD
+=======
+    "react-icons": "^5.5.0",
+>>>>>>> eac7e8369709a4b13e316f68de2d1766c9345595
     "react-select": "^5.10.1",
     "sass": "^1.85.1",
     "scss": "^0.2.4",
