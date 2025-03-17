@@ -15,7 +15,7 @@ get, post, delete 등 체인방식으로 사용 가능 : instance.get('/users') 
 const instance: AxiosInstance = axios.create({
   baseURL: BASE_URL,
   headers: {
-    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTc0MywidGVhbUlkIjoiMTItMiIsImlhdCI6MTc0MjE4OTcyMSwiZXhwIjoxNzQyMTkxNTIxLCJpc3MiOiJzcC1nbG9iYWxub21hZCJ9.kec5sN1yssktwBj4bXTwMvG2pQRslV13doWP3WLDK8o`, // << 하드코딩으로 데이터 확인할 때
+    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTc0MywidGVhbUlkIjoiMTItMiIsImlhdCI6MTc0MjE5MTU2MCwiZXhwIjoxNzQyMTkzMzYwLCJpc3MiOiJzcC1nbG9iYWxub21hZCJ9.ekm3ttl36e7eVt7K1hGmkuGtfVYrRWB4E1gBViU-zIE`, // << 하드코딩으로 데이터 확인할 때
     'Content-Type': 'application/json',
   },
   params: {
