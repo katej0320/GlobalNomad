@@ -33,9 +33,13 @@ export default function ReservationItem({
     fontWeight: '700',
   };
 
-  const [imagePath, setImagePath] = useState('');
-
   const statusMode = RESERVATION_STATUS;
+
+  const [imageSrcMap, setImageSrcMap] = useState<Record<string, string>>({});
+
+  const handleImageError = (id: string) => {
+    setImageSrcMap((prev) => ({ ...prev, [id]: '/images/no_thumbnail.png' }));
+  };
 
   function FormattedDate(date: string) {
     const formatted = useFormatDate(date);
@@ -54,9 +58,6 @@ export default function ReservationItem({
     <>
       {reservationsData?.map((reservation) => {
         const { activity, date } = reservation;
-        const [imageSrc, setImageSrc] = useState(
-          activity.bannerImageUrl || '/images/no_thumbnail.png',
-        );
         const statusInfo =
           statusMode[reservation.status!] || statusMode['pending'];
 
@@ -68,12 +69,16 @@ export default function ReservationItem({
           >
             <div className={styles.thumbnail}>
               <Image
-                src={imageSrc}
+                src={
+                  imageSrcMap[activity.id] ||
+                  activity.bannerImageUrl ||
+                  '/images/no_thumbnail.png'
+                }
                 alt='썸네일'
                 fill
                 sizes='100vw'
                 priority
-                onError={() => setImageSrc('/images/no_thumbnail.png')}
+                onError={() => handleImageError(String(activity.id))}
               />
             </div>
             <div className={styles.detail}>
@@ -127,4 +132,3 @@ export default function ReservationItem({
     </>
   );
 }
-
