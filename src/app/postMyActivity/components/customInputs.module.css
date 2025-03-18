@@ -1,0 +1,22 @@
+.textarea{
+    margin-top: 10px;
+    border-radius: 4px;
+    height: 346px;
+    width: 700px;
+    border: 1px solid #79747e;
+    padding: 16px 20px;
+}
+
+.textarea::placeholder {
+    font-size: 16px;
+    font-weight: 400;
+    color: #a4a1aa;
+  }
+
+.inputTitle{
+    margin-top: 10px;
+}
+
+.category{
+    margin-top: 10px;
+}
