@@ -7,6 +7,7 @@ import PasswordInput from '@/components/Input/PasswordInput';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { signIn } from '@/lib/auth-api';
+import { useAuthStore } from '@/stores/useAuthStore';
 
 interface LoginFormValues {
   email: string;
@@ -25,6 +26,9 @@ export default function SignInForm() {
   const onSubmit = async (data: LoginFormValues) => {
     try {
       const response = await signIn(data);
+      if (response) {
+        useAuthStore.getState().setAuth(response.user);
+      }
       router.push('/');
       return response;
     } catch (error) {
