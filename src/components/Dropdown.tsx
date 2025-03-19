@@ -15,7 +15,9 @@ type DropdownProps<T extends { value: string | number; label: string }> = {
   menuItemClassName?: string;
 };
 
-export default function Dropdown<T extends { value: string | number; label: string }>({
+export default function Dropdown<
+  T extends { value: string | number; label: string },
+>({
   options,
   selectedValue,
   onChange,
@@ -43,7 +45,6 @@ export default function Dropdown<T extends { value: string | number; label: stri
         onClick={() => setIsOpen((prev) => !prev)}
       >
         {selectedOption?.label ?? '필터'}
-        {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
         {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
       </button>
 
