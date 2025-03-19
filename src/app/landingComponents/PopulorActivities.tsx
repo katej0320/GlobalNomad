@@ -15,6 +15,7 @@ interface Props {
 export default function PopularActivities({ activities }: Props) {
   const [index, setIndex] = useState(0);
   const [itemsSize, setItemsSize] = useState(3);
+  const [sortedActivities, setSortedActivities] = useState<ActivitiesArray>([]);
 
   // 화면 사이즈 별 데이터 업로드 갯수
   useEffect(() => {
@@ -36,19 +37,32 @@ export default function PopularActivities({ activities }: Props) {
   // 인기목록 자동 스크롤
   useEffect(() => {
     const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % activities.length);
+      setIndex((prev) => (prev + 1) % sortedActivities.length);
     }, 4000);
     return () => clearInterval(interval);
-  }, [activities.length]);
+  }, [sortedActivities.length]);
+
+  // 인기 체험 목록 평점 내림차순 정렬
+  useEffect(() => {
+    const sorted = [...activities].sort((a, b) => {
+      // undefined일 경우 기본값 0으로 설정
+      const ratingA = a.rating ?? 0;
+      const ratingB = b.rating ?? 0;
+      return ratingB - ratingA; // 평점 내림차순
+    });
+    setSortedActivities(sorted);
+  }, [activities]);
 
   // 다음으로 넘김
   const nextSlide = () => {
-    setIndex((prev) => (prev + 1) % activities.length);
+    setIndex((prev) => (prev + 1) % sortedActivities.length);
   };
 
   // 이전으로 돌아감
   const prevSlide = () => {
-    setIndex((prev) => (prev - 1 + activities.length) % activities.length);
+    setIndex(
+      (prev) => (prev - 1 + sortedActivities.length) % sortedActivities.length,
+    );
   };
 
   return (
@@ -68,11 +82,14 @@ export default function PopularActivities({ activities }: Props) {
 
       {/* 인기 체험 목록 */}
       <div className={styles.carousel}>
-        {activities
+        {sortedActivities
           .slice(index, index + itemsSize)
           .concat(
-            index + itemsSize > activities.length
-              ? activities.slice(0, (index + itemsSize) % activities.length)
+            index + itemsSize > sortedActivities.length
+              ? sortedActivities.slice(
+                  0,
+                  (index + itemsSize) % sortedActivities.length,
+                )
               : [],
           )
           .map((activity) => (
@@ -92,7 +109,7 @@ export default function PopularActivities({ activities }: Props) {
                   <div className={styles.activitiesRating}>
                     <FaStar color='var(--yellow)' size={14} />
                     <p>
-                      {activity.rating}
+                      {activity.rating ?? 0} {/* 기본값 0 */}
                       <span> ({activity.reviewCount})</span>
                     </p>
                   </div>

@@ -24,6 +24,7 @@ export default function Home() {
 
   const sortOptions = [
     { value: 'latest', label: '최신순' },
+    { value: 'most_reviewed', label: '리뷰많은순' },
     { value: 'price_asc', label: '낮은가격순' },
     { value: 'price_desc', label: '높은가격순' },
   ];
