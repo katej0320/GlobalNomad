@@ -15,7 +15,19 @@ import { useState } from 'react';
  * @author 남기연 <getam101@naver.com>
  */
 
-export default function PasswordInput({ ...props }) {
+interface PasswordInputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  isErrored?: boolean;
+  label?: string;
+  id: string;
+}
+
+export default function PasswordInput({
+  isErrored = false,
+  label = '비밀번호',
+  id = '',
+  ...props
+}: PasswordInputProps) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const toggleVisibility = () => {

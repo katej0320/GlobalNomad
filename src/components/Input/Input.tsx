@@ -6,6 +6,7 @@ interface InputProps {
   id: string;
   type: string;
   placeholder: string;
+  isErrored?: boolean;
 }
 
 /**
@@ -63,7 +64,7 @@ export default function Input({
       <div className={styles.subContainer}>
         <input
           id={id}
-          className={styles.input}
+          className={`${styles.input} ${isErrored ? styles.errorBorder : ''}`}
           type={type}
           placeholder={placeholder}
           {...props}

@@ -31,10 +31,10 @@ export default function ActivitiesList({
                 {/* 체험 이미지 */}
                 <div className={styles.activityImage}>
                   <Image
-                    src={activity?.bannerImageUrl || '/images/not_found.png'}
+                    src={activity?.bannerImageUrl || '/images/no_thumbnail.png'}
                     alt={activity.title || '체험 이미지 입니다.'}
                     fill
-                    style={{ objectFit: 'contain' }}
+                    style={{ objectFit: 'cover' }}
                     priority
                   />
                 </div>
