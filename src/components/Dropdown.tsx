@@ -5,7 +5,7 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 import styles from './Dropdown.module.css';
 import useClickOutside from '@/utils/useClickOutside';
 
-type DropdownProps<T extends { value: any; label: string }> = {
+type DropdownProps<T extends { value: string | number; label: string }> = {
   options: T[];
   selectedValue: T['value'] | null;
   onChange: (value: T['value']) => void;
@@ -15,7 +15,7 @@ type DropdownProps<T extends { value: any; label: string }> = {
   menuItemClassName?: string;
 };
 
-export default function Dropdown<T extends { value: any; label: string }>({
+export default function Dropdown<T extends { value: string | number; label: string }>({
   options,
   selectedValue,
   onChange,
