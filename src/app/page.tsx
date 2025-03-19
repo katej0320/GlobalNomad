@@ -6,23 +6,26 @@ import { ActivitiesArray } from '@/lib/types';
 import PopularActivities from './landingComponents/PopulorActivities';
 import ActivitiesList from './landingComponents/ActivitiesList';
 import Dropdown from '@/components/Dropdown';
+import Pagination from './landingComponents/Pagination';
 // import Footer from '@/components/footer/Footer';
-import styles from './LandingPage.module.css';
+import styles from './landingComponents/LandingPage.module.css';
 
 export default function Home() {
-  const [selectedSort, setSelectedSort] = useState<{
-    id: number;
-    title: string;
-  } | null>(null);
+  const [selectedSort, setSelectedSort] = useState<string | null>(null);
   const [activities, setActivities] = useState<ActivitiesArray>([]);
+  const [popularActivities, setPopularActivities] = useState<ActivitiesArray>(
+    [],
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [size, setSize] = useState(8); // 기본값 8개
+  const [size, setSize] = useState(8);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const sortOptions = [
-    { id: 1, title: '최신순' },
-    { id: 2, title: '낮은가격순' },
-    { id: 3, title: '높은가격순' },
+    { value: 'latest', label: '최신순' },
+    { value: 'price_asc', label: '낮은가격순' },
+    { value: 'price_desc', label: '높은가격순' },
   ];
 
   useEffect(() => {
@@ -44,14 +47,16 @@ export default function Home() {
     }
   }, []);
 
+  // 체험 리스트 API호출
   useEffect(() => {
     const fetchActivities = async () => {
       try {
         const response = await axios.get('/activities', {
-          params: { method: 'offset', page: 1, size: size },
+          params: { method: 'offset', page: currentPage, size: size },
         });
 
         setActivities(response.data.activities);
+        setTotalPages(Math.ceil(response.data.totalCount / size)); // 전체 페이지 수 계산
         setIsLoading(false);
       } catch (error) {
         console.error('데이터 가져오기 실패:', error);
@@ -61,7 +66,29 @@ export default function Home() {
     };
 
     fetchActivities();
-  }, [size]); // size가 변경될 때만 API 호출
+  }, [size, currentPage]);
+
+  // 인기체험 API호출
+  useEffect(() => {
+    const fetchPopularActivities = async () => {
+      try {
+        const response = await axios.get('/activities', {
+          params: { method: 'offset', page: 1, size: 9 },
+        });
+
+        setPopularActivities(response.data.activities);
+      } catch (error) {
+        console.error('인기 체험 데이터 가져오기 실패:', error);
+      }
+    };
+
+    fetchPopularActivities();
+  }, []);
+
+  // 페이지 변경
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   return (
     <>
@@ -74,10 +101,8 @@ export default function Home() {
           <p className={styles.text2}>1월의 인기체험 BEST</p>
         </div>
       </div>
-
       {/* 인기 체험 */}
-      <PopularActivities activities={activities} />
-
+      <PopularActivities activities={popularActivities} />
       {/* 카테고리 영역 */}
       <div className={styles.categoryContainer}>
         <ul className={styles.category}>
@@ -90,16 +115,21 @@ export default function Home() {
         </ul>
         <Dropdown
           options={sortOptions}
-          selected={selectedSort}
+          selectedValue={selectedSort}
           onChange={setSelectedSort}
         />
       </div>
-
-      {/* 활동 목록 */}
+      {/* 체험 리스트 */}
       <ActivitiesList
         activities={activities}
         isLoading={isLoading}
         error={error}
+      />
+      {/* 페이지네이션 */}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        setPage={handlePageChange}
       />
 
       {/* <Footer /> */}
