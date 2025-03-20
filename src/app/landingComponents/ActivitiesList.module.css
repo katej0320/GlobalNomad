@@ -52,9 +52,6 @@
 /* 체험 이미지 */
 .activityImage {
   position: relative;
-  /* 백그라운드 임시로 지정 */
-  background-color: var(--gray-medium); 
-
   max-width: 283px;
   height: auto;
   aspect-ratio: 1 / 1;

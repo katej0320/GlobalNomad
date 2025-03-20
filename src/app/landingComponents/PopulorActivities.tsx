@@ -16,6 +16,7 @@ export default function PopularActivities({ activities }: Props) {
   const [index, setIndex] = useState(0);
   const [itemsSize, setItemsSize] = useState(3);
   const [sortedActivities, setSortedActivities] = useState<ActivitiesArray>([]);
+  const [imageSrcMap, setImageSrcMap] = useState<{ [key: number]: string }>({});
 
   // 화면 사이즈 별 데이터 업로드 갯수
   useEffect(() => {
@@ -45,7 +46,6 @@ export default function PopularActivities({ activities }: Props) {
   // 인기 체험 목록 평점 내림차순 정렬
   useEffect(() => {
     const sorted = [...activities].sort((a, b) => {
-      // undefined일 경우 기본값 0으로 설정
       const ratingA = a.rating ?? 0;
       const ratingB = b.rating ?? 0;
       return ratingB - ratingA; // 평점 내림차순
@@ -53,11 +53,18 @@ export default function PopularActivities({ activities }: Props) {
     setSortedActivities(sorted);
   }, [activities]);
 
+  // 이미지 로드 실패 시 기본 이미지로 변경
+  const handleImageError = (id: number) => {
+    setImageSrcMap((prev) => ({
+      ...prev,
+      [id]: '/images/no_thumbnail.png',
+    }));
+  };
+
   // 다음으로 넘김
   const nextSlide = () => {
     setIndex((prev) => (prev + 1) % sortedActivities.length);
   };
-
   // 이전으로 돌아감
   const prevSlide = () => {
     setIndex(
@@ -97,11 +104,16 @@ export default function PopularActivities({ activities }: Props) {
               <Link href={`/activities/${activity.id}`}>
                 <div className={styles.activityImage}>
                   <Image
-                    src={activity.bannerImageUrl || '/images/no_thumbnail.png'}
+                    src={
+                      imageSrcMap[activity.id] ||
+                      activity.bannerImageUrl ||
+                      '/images/no_thumbnail.png'
+                    }
                     alt={activity.title || '체험 이미지 입니다.'}
                     fill
                     style={{ objectFit: 'cover' }}
                     priority
+                    onError={() => handleImageError(activity.id)}
                   />
                 </div>
                 <div className={styles.info}>
