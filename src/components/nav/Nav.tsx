@@ -1,54 +1,18 @@
 'use client';
 
-<<<<<<< HEAD
-import { useRef, useState, useEffect } from 'react';
-=======
 import { useRef, useState } from 'react';
->>>>>>> dd7202e0 (chore: 컨플릭트 해결)
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './nav.module.css';
 import NavProfileCard from './NavProfileCard';
-<<<<<<< HEAD
 import NotificationModal from '../notification/NotificationModal';
-=======
 import useClickOutside from '@/utils/useClickOutside';
->>>>>>> dd7202e0 (chore: 컨플릭트 해결)
 
 export default function Nav() {
   const [isProfileCard, setIsProfileCard] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
-  const modalRef = useRef<HTMLDivElement>(null);
 
-<<<<<<< HEAD
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      // 프로필 카드 바깥 클릭 시 닫기
-      if (
-        profileRef.current &&
-        !profileRef.current.contains(event.target as Node)
-      ) {
-        setIsProfileCard(false);
-      }
-
-      // 알림 모달 바깥 클릭 시 닫기
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
-      ) {
-        setIsModalOpen(false);
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-=======
   useClickOutside({ ref: profileRef, setter: setIsProfileCard });
->>>>>>> dd7202e0 (chore: 컨플릭트 해결)
 
   return (
     <nav className={styles.nav}>
@@ -63,10 +27,14 @@ export default function Nav() {
             />
           </Link>
         </div>
-
+        {/* 로그인 전 */}
+        {/* <div className={styles.noTokenUI}>
+          <Link href="/signin">로그인</Link>
+          <Link href="/signup">회원가입</Link>
+        </div> */}
+        {/* 로그인 후 */}
         <div className={styles.hasTokenUI}>
-          {/* 알림 아이콘 클릭 시 모달 열기 */}
-          <div className={styles.notice} onClick={() => setIsModalOpen(true)}>
+          <div className={styles.notice}>
             <Image
               src='/images/icon_notification.svg'
               width={20}
@@ -75,18 +43,6 @@ export default function Nav() {
               className={styles.iconNotice}
             />
           </div>
-
-          {/* 모달 렌더링 (isModalOpen이 true일 때만) */}
-          {isModalOpen && (
-            <div ref={modalRef}>
-              <NotificationModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-              />
-            </div>
-          )}
-
-          {/* 프로필 영역 */}
           <div
             className={styles.profile}
             ref={profileRef}
@@ -113,3 +69,4 @@ export default function Nav() {
     </nav>
   );
 }
+

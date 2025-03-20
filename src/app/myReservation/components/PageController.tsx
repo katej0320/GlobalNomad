@@ -1,29 +1,38 @@
 'use client';
 
-import { useState } from 'react';
 import Dropdown from '@/components/Dropdown';
-import styles from './style.module.css';
+import styles from '../style.module.css';
+import { Reservation } from '@/lib/types';
+import { SetStateAction } from 'react';
 
-export default function PageController() {
-  const [value, setValue] = useState('전체');
+interface Props<T extends { value: string; label: string }> {
+  reservationsData: Reservation[] | undefined;
+  status: string;
+  value: string | null;
+  setValue: React.Dispatch<SetStateAction<string | null>>;
+  options: T[];
+}
 
-  const options = [
-    '전체',
-    '예약 완료',
-    '예약 취소',
-    '예약 승인',
-    '예약 거절',
-    '체험 완료',
-  ];
+export default function PageController<T extends { value: string; label: string }>({
+  reservationsData,
+  status,
+  value,
+  setValue,
+  options,
+}: Props<T>) {
   return (
     <>
       <div className={styles.head}>
         <p className={styles.title}>예약 내역</p>
-        <Dropdown
-          options={options}
-          selected={value}
-          onChange={setValue}
-        ></Dropdown>
+        {status === '' && reservationsData?.length === 0 ? (
+          ''
+        ) : (
+          <Dropdown<{ value: string; label: string }>
+            options={options}
+            selectedValue={value}
+            onChange={setValue}
+          />
+        )}
       </div>
     </>
   );
