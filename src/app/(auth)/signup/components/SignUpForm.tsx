@@ -7,13 +7,11 @@ import { useForm } from 'react-hook-form';
 import CustomButton from '@/components/CustomButton';
 import { signUp } from '@/lib/auth-api';
 import { useRouter } from 'next/navigation';
-
-interface FormValues {
-  email: string;
-  nickname: string;
-  password: string;
-  passwordConfirmation: string;
-}
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  signUpSchema,
+  type SignUpFormValues,
+} from '@/lib/schemas/auth-schemas';
 
 export default function SignUpForm() {
   const {
@@ -21,15 +19,16 @@ export default function SignUpForm() {
     handleSubmit,
     watch,
     formState: { errors, isValid },
-  } = useForm<FormValues>({
+  } = useForm<SignUpFormValues>({
     mode: 'onChange',
+    resolver: zodResolver(signUpSchema),
   });
 
   const password = watch('password');
 
   const router = useRouter();
 
-  const onSubmit = async (data: FormValues) => {
+  const onSubmit = async (data: SignUpFormValues) => {
     try {
       const response = await signUp(data);
       router.push('/signin');
