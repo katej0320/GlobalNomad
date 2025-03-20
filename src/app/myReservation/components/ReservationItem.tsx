@@ -7,7 +7,7 @@ import styles from '../style.module.css';
 import { RESERVATION_STATUS } from '@/constants/ReservationStatus';
 import useFormatDate from '@/utils/useFormatDate';
 import { Reservation } from '@/lib/types';
-import { isPastDateTime } from '@/utils/dateUtils';
+import { useDateUtils } from '@/utils/useDateUtils';
 
 interface Props {
   reservationsData: Reservation[] | undefined;
@@ -65,10 +65,22 @@ export default function ReservationItem({
         return (
           <li
             key={reservation.id}
-            className={styles.reservationBox}
-            onClick={() => handleNavigate(String(activity.id))}
+            className={`${styles.reservationBox} ${
+              useDateUtils(date, reservation.startTime) && styles.noClick
+            }`}
+            onClick={() =>
+              !useDateUtils(date, reservation.startTime) &&
+              handleNavigate(String(activity.id))
+            }
           >
+            {useDateUtils(date, reservation.startTime) && (
+              <div className={styles.overlay}></div>
+            )}
+
             <div className={styles.thumbnail}>
+              {useDateUtils(date, reservation.startTime) && (
+                <div className={styles.overlay}></div>
+              )}
               <Image
                 src={
                   imageSrcMap[activity.id] ||
@@ -107,7 +119,7 @@ export default function ReservationItem({
                   ₩{reservation.totalPrice?.toLocaleString('ko-KR')}
                 </div>
                 {statusInfo.text === '예약 신청' &&
-                !isPastDateTime(date, reservation.startTime) ? (
+                !useDateUtils(date, reservation.startTime) ? (
                   <CustomButton
                     style={cancelReservationButton}
                     onClick={(e) => {
@@ -124,7 +136,7 @@ export default function ReservationItem({
                   >
                     후기 작성
                   </CustomButton>
-                ) : isPastDateTime(date, reservation.startTime) ? (
+                ) : useDateUtils(date, reservation.startTime) ? (
                   <div className={styles.notice}>기한 만료</div>
                 ) : (
                   ''
