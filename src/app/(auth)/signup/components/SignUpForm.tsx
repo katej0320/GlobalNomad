@@ -17,14 +17,11 @@ export default function SignUpForm() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors, isValid },
   } = useForm<SignUpFormValues>({
     mode: 'onChange',
     resolver: zodResolver(signUpSchema),
   });
-
-  const password = watch('password');
 
   const router = useRouter();
 
@@ -47,13 +44,7 @@ export default function SignUpForm() {
           label='이메일'
           id='email'
           isErrored={!!errors.email}
-          {...register('email', {
-            required: '이메일은 필수 입력입니다.',
-            pattern: {
-              value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
-              message: '이메일 양식이 틀렸어요',
-            },
-          })}
+          {...register('email')}
         />
         {errors.email && <p className={styles.error}>{errors.email.message}</p>}
       </div>
@@ -64,13 +55,7 @@ export default function SignUpForm() {
           label='닉네임'
           id='nickname'
           isErrored={!!errors.nickname}
-          {...register('nickname', {
-            required: '닉네임은 필수 입력입니다.',
-            maxLength: {
-              value: 10,
-              message: '열 자 이하로 작성해주세요.',
-            },
-          })}
+          {...register('nickname')}
         />
         {errors.nickname && (
           <p className={styles.error}>{errors.nickname.message}</p>
@@ -81,10 +66,7 @@ export default function SignUpForm() {
           isErrored={!!errors.password}
           label='비밀번호'
           id='password'
-          {...register('password', {
-            required: '비밀번호는 필수 입력입니다.',
-            minLength: { value: 8, message: '8자 이상 입력하세요.' },
-          })}
+          {...register('password')}
         />
         {errors.password && (
           <p className={styles.error}>{errors.password.message}</p>
@@ -95,11 +77,7 @@ export default function SignUpForm() {
           isErrored={!!errors.passwordConfirmation}
           label='비밀번호 확인'
           id='passwordConfirmation'
-          {...register('passwordConfirmation', {
-            required: '비밀번호 확인은 필수 입력입니다.',
-            validate: (value) =>
-              value === password || '비밀번호가 일치하지 않습니다.',
-          })}
+          {...register('passwordConfirmation')}
         />
         {errors.passwordConfirmation && (
           <p className={styles.error}>{errors.passwordConfirmation.message}</p>
