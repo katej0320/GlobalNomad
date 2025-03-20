@@ -7,6 +7,7 @@ import styles from '../style.module.css';
 import { RESERVATION_STATUS } from '@/constants/ReservationStatus';
 import useFormatDate from '@/utils/useFormatDate';
 import { Reservation } from '@/lib/types';
+import { isPastDateTime } from '@/utils/dateUtils';
 
 interface Props {
   reservationsData: Reservation[] | undefined;
@@ -105,7 +106,8 @@ export default function ReservationItem({
                 <div className={styles.price}>
                   ₩{reservation.totalPrice?.toLocaleString('ko-KR')}
                 </div>
-                {statusInfo.text === '예약 신청' ? (
+                {statusInfo.text === '예약 신청' &&
+                !isPastDateTime(date, reservation.startTime) ? (
                   <CustomButton
                     style={cancelReservationButton}
                     onClick={(e) => {
@@ -122,6 +124,8 @@ export default function ReservationItem({
                   >
                     후기 작성
                   </CustomButton>
+                ) : isPastDateTime(date, reservation.startTime) ? (
+                  <div className={styles.notice}>기한 만료</div>
                 ) : (
                   ''
                 )}
