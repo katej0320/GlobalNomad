@@ -6,15 +6,6 @@ export const useStatusFilter = () => {
   const [value, setValue] = useState<string | null>('전체');
   const [status, setStatus] = useState<string>('');
 
-  // const options = [
-  //   '전체',
-  //   '예약 신청',
-  //   '예약 취소',
-  //   '예약 승인',
-  //   '예약 거절',
-  //   '체험 완료',
-  // ];
-
   const options = [
     { value: '전체', label: '전체' },
     { value: '예약 신청', label: '예약 신청' },
@@ -25,27 +16,25 @@ export const useStatusFilter = () => {
   ];
 
   useEffect(() => {
-    switch (value) {
-      case '전체':
-        setStatus('');
-        break;
-      case '예약 신청':
-        setStatus('pending');
-        break;
-      case '예약 취소':
-        setStatus('canceled');
-        break;
-      case '예약 승인':
-        setStatus('confirmed');
-        break;
-      case '예약 거절':
-        setStatus('declined');
-        break;
-      case '체험 완료':
-        setStatus('completed');
-        break;
+    const newStatus =
+      value === '전체'
+        ? ''
+        : value === '예약 신청'
+        ? 'pending'
+        : value === '예약 취소'
+        ? 'canceled'
+        : value === '예약 승인'
+        ? 'confirmed'
+        : value === '예약 거절'
+        ? 'declined'
+        : value === '체험 완료'
+        ? 'completed'
+        : status;
+
+    if (newStatus !== status) {
+      setStatus(newStatus);
     }
-  }, [value]);
+  }, [value, status]);
 
   return { value, setValue, status, options };
 };

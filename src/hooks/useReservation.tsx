@@ -21,8 +21,8 @@ const useReservation = (status: string) => {
   return useQuery<Reservation[]>({
     queryKey: ['reservation', status],
     queryFn: () => fetchReservation(status),
+    staleTime: 1000 * 60 * 5,
   });
 };
 
 export default useReservation;
-
