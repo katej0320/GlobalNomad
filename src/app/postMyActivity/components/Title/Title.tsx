@@ -1,7 +1,7 @@
 "use client";
-import Input from "./customInput";
-import SelectInput from "./customSelectInput";
-import styles from "./customInputs.module.css";
+import Input from "../customInputs/customInput";
+import SelectInput from "../customInputs/customSelectInput";
+import styles from "./Title.module.css";
 import { useActivityStore } from "@/stores/useActivityStore";
 
 export default function Title() {

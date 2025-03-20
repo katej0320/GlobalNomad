@@ -1,13 +1,13 @@
 "use client"
 
 import CustomButton from "@/components/CustomButton"
-import styles from "../postMyActivity.module.css"
+import styles from "./PostActivity.module.css"
 
 export default function PostActivity() {
 
     return (
-        <div>
-            <p>내 체험 등록</p>
+        <div className={styles.container}>
+            <p className="text-4xl">내 체험 등록</p>
             <CustomButton
                 href="/myactivities"
                 fontSize="md"

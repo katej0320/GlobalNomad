@@ -1,8 +1,8 @@
 "use client"
 
 import CustomButton from "@/components/CustomButton"
-import DateInput from "./customDateInput"
-import CustomTimeSelect from "./customTimeSelect"
+import DateInput from "../customInputs/customDateInput"
+import CustomTimeSelect from "../customInputs/customTimeSelect"
 import { Plus, Minus } from "lucide-react";
 import { useActivityStore } from "@/stores/useActivityStore";
 
