@@ -15,6 +15,9 @@ interface ActivityData {
   schedules: Schedule[];
   bannerImageUrl: string;
   subImageUrls: string[];
+  startTime: string;
+  endTime: string;  
+  date: string;
 }
 
 interface ActivityStore {
@@ -24,37 +27,59 @@ interface ActivityStore {
   removeSchedule: (index: number) => void;
   updateSchedule: (index: number, field: keyof Schedule, value: string) => void;
 }
-
 export const useActivityStore = create<ActivityStore>((set) => ({
   activity: {
-    title: "",
-    category: "",
-    description: "",
-    address: "",
-    price: 0,
-    schedules: [],
-    bannerImageUrl: "",
-    subImageUrls: [],
+      title: "",
+      category: "",
+      description: "",
+      address: "",
+      price: 0,
+      schedules: [],
+      bannerImageUrl: "",
+      subImageUrls: [],
+      date: "",  // ✅ 추가됨
+      startTime: "0:00", // 기본값
+      endTime: "0:00",   // 기본값
   },
-  setActivity: (data) => set((state) => ({ activity: { ...state.activity, ...data } })),
+
+  setActivity: (data) =>
+      set((state) => ({
+          activity: { ...state.activity, ...data },
+      })),
+
   addSchedule: () =>
-    set((state) => ({
-      activity: {
-        ...state.activity,
-        schedules: [...state.activity.schedules, { date: "", startTime: "", endTime: "" }],
-      },
-    })),
+      set((state) => {
+          const { date, startTime, endTime, schedules } = state.activity;
+          if (!date) {
+              alert("날짜를 입력하세요!"); // ❌ 날짜가 없으면 추가 방지
+              return state;
+          }
+          return {
+              activity: {
+                  ...state.activity,
+                  schedules: [
+                      ...schedules,
+                      { date, startTime, endTime }, // ✅ 명확하게 date 추가!
+                  ],
+              },
+          };
+      }),
+
   removeSchedule: (index) =>
-    set((state) => ({
-      activity: {
-        ...state.activity,
-        schedules: state.activity.schedules.filter((_, i) => i !== index),
-      },
-    })),
+      set((state) => ({
+          activity: {
+              ...state.activity,
+              schedules: state.activity.schedules.filter((_, i) => i !== index),
+          },
+      })),
+
   updateSchedule: (index, field, value) =>
-    set((state) => {
-      const updatedSchedules = [...state.activity.schedules];
-      updatedSchedules[index] = { ...updatedSchedules[index], [field]: value };
-      return { activity: { ...state.activity, schedules: updatedSchedules } };
-    }),
+      set((state) => ({
+          activity: {
+              ...state.activity,
+              schedules: state.activity.schedules.map((schedule, i) =>
+                  i === index ? { ...schedule, [field]: value } : schedule
+              ),
+          },
+      })),
 }));

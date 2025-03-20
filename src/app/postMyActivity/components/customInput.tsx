@@ -11,6 +11,7 @@ interface InputProps {
   className?: string;
   name?: string;
   value?:string;
+  onChange?: ((e: React.ChangeEvent<HTMLInputElement>)=>void);
 }
 
 /**
@@ -54,7 +55,8 @@ export default function Input({
   labelSize = '',
   id = 'email',
   isErrored = false,
-  name='',
+  name='', 
+  onChange,
   ...props
 }: InputProps) {
   return (

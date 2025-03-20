@@ -1,6 +1,6 @@
 "use client";
 import Input from "./customInput";
-import SelectInput from "@/components/Input/SelectInput";
+import SelectInput from "./customSelectInput";
 import styles from "./customInputs.module.css";
 import { useActivityStore } from "@/stores/useActivityStore";
 

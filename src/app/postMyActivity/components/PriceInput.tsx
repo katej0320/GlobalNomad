@@ -15,6 +15,7 @@ export default function PriceInput (){
                 id="price"
                 type="number"
                 value={activity.price}
+                onChange={(e) => setActivity({ title: e.target.value })}
                 />
             
         </div>
