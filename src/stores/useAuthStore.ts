@@ -1,6 +1,7 @@
 import { User } from '@/lib/types';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
+import Cookies from 'js-cookie';
 
 /**
  * @example
@@ -21,7 +22,11 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       user: null,
       setAuth: (user) => set({ user }),
-      logout: () => set({ user: null }),
+      logout: () => {
+        Cookies.remove('accessToken');
+        Cookies.remove('refreshToken');
+        set({ user: null });
+      },
     }),
     {
       name: 'auth-storage',
