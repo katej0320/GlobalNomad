@@ -8,18 +8,10 @@ import DateInput from '@/components/Input/DateInput';
 import Cookies from 'js-cookie';
 import instance from '@/lib/api';
 import { useEffect } from 'react';
-import { z } from 'zod';
 
 export default function Page() {
   console.log('액세스토큰:', Cookies.get('accessToken'));
   console.log('리프레쉬토큰:', Cookies.get('refreshToken'));
-
-  const mySchema = z.string();
-  const User = z.object({
-    username: z.string(),
-  });
-
-  console.log(User.shape.username.parse('rldus'));
 
   const getMyInfo = async () => {
     const response = await instance.get('/users/me');
