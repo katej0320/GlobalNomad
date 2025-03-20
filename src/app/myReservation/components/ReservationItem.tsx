@@ -77,6 +77,7 @@ export default function ReservationItem({
                 alt='썸네일'
                 fill
                 sizes='100vw'
+                style={{ objectFit: 'cover' }}
                 priority
                 onError={() => handleImageError(String(activity.id))}
               />
