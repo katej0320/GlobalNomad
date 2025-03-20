@@ -1,35 +1,38 @@
-import instance from '@/lib/api';
-import { useEffect, useState, useRef } from 'react';
-import ReservationInfoByStatus from './ReservationInfoByStatus';
-import CloseButton from '@/components/CloseButton';
-import Dropdown from '@/components/Dropdown';
+'use client';
+
+import { useState, useRef } from 'react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
+import styles from './Dropdown.module.css';
 import useClickOutside from '@/utils/useClickOutside';
-import styles from './ReservationInfoModal.module.css';
 
-interface ScheduleInfo {
-  scheduleId: number;
-  startTime: string;
-  endTime: string;
-  count: { declined: number; confirmed: number; pending: number };
-}
+type DropdownProps<T extends { value: string | number; label: string }> = {
+  options: T[];
+  selectedValue: T['value'] | null;
+  onChange: (value: T['value']) => void;
+  dropdownClassName?: string;
+  toggleClassName?: string;
+  menuClassName?: string;
+  menuItemClassName?: string;
+};
 
-interface Props {
-  activityId: number;
-  date: string;
-  onClose: () => void;
-}
+export default function Dropdown<
+  T extends { value: string | number; label: string },
+>({
+  options,
+  selectedValue,
+  onChange,
+  dropdownClassName = '',
+  toggleClassName = '',
+  menuClassName = '',
+  menuItemClassName = '',
+}: DropdownProps<T>) {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-export default function ReservationInfoModal({
-  activityId,
-  date,
-  onClose,
-}: Props) {
-  const [scheduleList, setScheduleList] = useState<ScheduleInfo[]>([]);
-  const [selectedStatus, setSelectedStatus] = useState<
-    'pending' | 'confirmed' | 'declined'
-  >('pending');
-  const [selectedScheduleId, setSelectedScheduleId] = useState<number | null>(
-    null,
+  useClickOutside({ ref: dropdownRef, setter: setIsOpen });
+
+  const selectedOption = options.find(
+    (option) => option.value === selectedValue,
   );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -91,72 +94,34 @@ export default function ReservationInfoModal({
   if (error) return <p>{error}</p>;
 
   return (
-    <div className={styles.modalOverlay}>
-      <div ref={modalRef} className={styles.modalContent}>
-        <div className={styles.header}>
-          <p className={styles.modalTitle}>예약 정보</p>
-          <CloseButton onClick={onClose} className={styles.closeBtn} />
-        </div>
-        {scheduleList.length === 0 ? (
-          <p>예약된 스케줄이 없습니다.</p>
-        ) : (
-          <div className={styles.tabContainer}>
-            <button
-              className={
-                selectedStatus === 'pending' ? styles.activeTab : styles.tab
-              }
-              onClick={() => setSelectedStatus('pending')}
-            >
-              신청 {totalPending}
-            </button>
-            <button
-              className={
-                selectedStatus === 'confirmed' ? styles.activeTab : styles.tab
-              }
-              onClick={() => setSelectedStatus('confirmed')}
-            >
-              승인 {totalConfirmed}
-            </button>
-            <button
-              className={
-                selectedStatus === 'declined' ? styles.activeTab : styles.tab
-              }
-              onClick={() => setSelectedStatus('declined')}
-            >
-              거절 {totalDeclined}
-            </button>
-          </div>
-        )}
+    <div
+      className={`${styles.dropdown} ${dropdownClassName}`}
+      ref={dropdownRef}
+    >
+      <button
+        className={`${styles.toggleBtn} ${toggleClassName}`}
+        onClick={() => setIsOpen((prev) => !prev)}
+      >
+        {selectedOption?.label ?? '선택'}
+        {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+      </button>
 
-        <div className={styles.underContainer}>
-          <p className={styles.semiTitle}>예약 날짜</p>
-          <p className={styles.date}>{date}</p>
-          <Dropdown
-            dropdownClassName={styles.dropdown ?? ''}
-            toggleClassName={styles.dropdown}
-            menuClassName={styles.dropdownList}
-            menuItemClassName={styles.dropdownList}
-            options={scheduleList.map((schedule) => ({
-              value: schedule.scheduleId,
-              label: `${schedule.startTime} ~ ${schedule.endTime}`,
-            }))}
-            selectedValue={selectedScheduleId ?? null}
-            onChange={(value) => setSelectedScheduleId(Number(value))}
-          />
-        </div>
-
-        <div className={styles.underContainer}>
-          <p className={styles.semiTitle}>예약 내역</p>
-          {selectedScheduleId && (
-            <ReservationInfoByStatus
-              activityId={activityId}
-              scheduleId={selectedScheduleId}
-              status={selectedStatus}
-              onStatusChange={fetchSchedules}
-            />
-          )}
-        </div>
-      </div>
+      {isOpen && (
+        <ul className={`${styles.menu} ${menuClassName}`}>
+          {options.map((option) => (
+            <li
+              key={option.value}
+              className={`${styles.menuItem} ${menuItemClassName}`}
+              onClick={() => {
+                onChange(option.value);
+                setIsOpen(false);
+              }}
+            >
+              {option.label}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
