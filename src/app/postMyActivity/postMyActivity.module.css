@@ -1,0 +1,10 @@
+
+
+.custombutton{
+    width: 120px;
+    height: 48px;
+    display:flex !important;
+    text-align: center;
+    align-items:center;
+    justify-content:center;
+}

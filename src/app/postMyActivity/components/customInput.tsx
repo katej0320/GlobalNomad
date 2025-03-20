@@ -9,6 +9,8 @@ interface InputProps {
   placeholder: string;
   isErrored?: boolean;
   className?: string;
+  name?: string;
+  value?:string;
 }
 
 /**
@@ -52,7 +54,7 @@ export default function Input({
   labelSize = '',
   id = 'email',
   isErrored = false,
-  className,
+  name='',
   ...props
 }: InputProps) {
   return (
