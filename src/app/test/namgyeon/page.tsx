@@ -37,14 +37,18 @@ export default function Page() {
           type='text'
           placeholder='이메일을 입력해주세요'
           label='이메일'
-          labelSize='large'
+          labelSize={true}
         />
       </div>
       <div>
         <PasswordInput id='password' />
       </div>
       <div>
-        <SelectInput />
+        <SelectInput
+          onChange={(value) => {
+            console.log(value);
+          }}
+        />
       </div>
       <div className={styles.subContainer}>
         <DateInput id='date' label='날짜' />
