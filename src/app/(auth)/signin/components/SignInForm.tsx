@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { signIn } from '@/lib/auth-api';
 import { signInSchema, type LoginFormValues } from '@/lib/schemas/auth-schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useAuthStore } from '@/stores/useAuthStore';
 
 export default function SignInForm() {
   const {
@@ -25,6 +26,9 @@ export default function SignInForm() {
   const onSubmit = async (data: LoginFormValues) => {
     try {
       const response = await signIn(data);
+      if (response) {
+        useAuthStore.getState().setAuth(response.user);
+      }
       router.push('/');
       return response;
     } catch (error) {

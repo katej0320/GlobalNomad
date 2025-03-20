@@ -1,8 +1,22 @@
+'use client';
+
 import styles from './index.module.css';
 import SignInForm from './components/SignInForm';
 import Link from 'next/link';
+import Cookies from 'js-cookie';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function SignIn() {
+  const router = useRouter();
+  useEffect(() => {
+    const token = Cookies.get('accessToken');
+
+    if (token) {
+      router.replace('/');
+    }
+  }, [router]);
+
   return (
     <div className={styles.container}>
       <SignInForm />
