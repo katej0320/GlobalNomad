@@ -81,6 +81,7 @@ export default function ReservationInfoModal({
 
   if (loading) return <p>로딩 중...</p>;
   if (error) return <p>{error}</p>;
+  if (scheduleList.length === 0) return <p>예약된 스케줄이 없습니다.</p>;
 
   return (
     <div className={styles.modalOverlay}>
