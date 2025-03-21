@@ -52,7 +52,6 @@ const CustomOption = (
 ) => {
   return (
     <components.Option {...props}>
-      {props.isSelected && <span>✔</span>}
       {props.children}
     </components.Option>
   );
@@ -89,7 +88,7 @@ export default function CustomTimeSelect({
           options={allTimeOptions} // 전체 시간 옵션 사용
           placeholder='0:00'
           styles={CustomSelect}
-          isClearable
+          // isClearable
           value={allTimeOptions.find((t) => t.value === startTime) || null}
           onChange={(newValue: unknown) => {
             const option = newValue as SingleValue<{ value: string; label: string }>;
@@ -106,7 +105,7 @@ export default function CustomTimeSelect({
           options={filteredEndTimeOptions} // 시작 시간 이후의 옵션만 표시
           placeholder='0:00'
           styles={CustomSelect}
-          isClearable
+          // isClearable
           value={filteredEndTimeOptions.find((t) => t.value === endTime) || null}
           onChange={(newValue: unknown) => {
             const option = newValue as SingleValue<{ value: string; label: string }>;

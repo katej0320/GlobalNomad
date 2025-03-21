@@ -4,11 +4,12 @@
 }
 
 .select {
-    width: 160px;
+    width: 140px;
+    margin: 0 20px;
 }
 
 .waveSymbol{
-    font-size : 24px;
-    margin: 0 12px;
+    font-size : 20px;
+    margin: 0 -8px;
 
 }

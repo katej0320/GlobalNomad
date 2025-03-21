@@ -50,14 +50,15 @@ export default function Reservation() {
           className={styles.customTime}
         />
         <CustomButton onClick={handleAddSchedule} className={styles.customButton}>
-          <Plus /> 
+          <Plus size={42} /> 
         </CustomButton>
       </div>
+      <div className={styles.divider} />
 
       {/* 추가된 일정 목록 */}
-      <div >
+      <div className={styles.containerAdded}>
         {activity.schedules.map((schedule, index) => (
-          <div key={index} className={styles.inputWrapper}>
+          <div key={index} className={styles.inputWrapperAdded}>
             <DateInput
               type='date'
               value={schedule.date || ''}
@@ -68,7 +69,7 @@ export default function Reservation() {
                   date ? date.toISOString().slice(0, 10) : '',
                 );
               }}
-              className={styles.dateInput}
+              className={styles.dateInputAdded}
             />
 
             <CustomTimeSelect
@@ -80,11 +81,11 @@ export default function Reservation() {
               onEndTimeChange={(value) =>
                 updateSchedule(index, 'endTime', value)
               }
-              className={styles.customTime}
+              className={styles.customTimeAdded}
             />
 
-            <CustomButton onClick={() => removeSchedule(index)} className={styles.customButton}>
-              <Minus /> 
+            <CustomButton onClick={() => removeSchedule(index)} className={styles.customButtonMinus}>
+              <Minus className={styles.minus} size={42}/> 
             </CustomButton>
           </div>
         ))}

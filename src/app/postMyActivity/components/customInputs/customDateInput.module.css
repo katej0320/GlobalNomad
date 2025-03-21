@@ -24,6 +24,7 @@
   position: relative;
   display: flex;
   width: 100%;
+  
 }
 
 .datePickerWrapper {
@@ -39,6 +40,8 @@
   border-radius: 4px;
   font-size: 16px;
   font-weight: 400;
+
+
 }
 
 .input error {
