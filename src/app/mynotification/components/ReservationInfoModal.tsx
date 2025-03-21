@@ -33,6 +33,9 @@ export default function ReservationInfoModal({
   );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  useClickOutside({ ref: dropdownRef, setter: setIsOpen });
 
   const modalRef = useRef<HTMLDivElement | null>(null);
 
