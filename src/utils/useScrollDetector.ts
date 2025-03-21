@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 
-const useScrollDetector = (callback: () => void) => {
+export const useScrollDetector = (callback: () => void) => {
   useEffect(() => {
     const handleScroll = () => {
-      const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
+      const { scrollHeight, scrollTop, clientHeight } =
+        document.documentElement;
       if (scrollTop + clientHeight >= scrollHeight - 10) {
         callback();
       }
@@ -13,5 +14,3 @@ const useScrollDetector = (callback: () => void) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [callback]);
 };
-
-export default useScrollDetector;

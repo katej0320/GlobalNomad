@@ -8,20 +8,28 @@ import useReservation from '@/hooks/useReservation';
 import styles from './style.module.css';
 import PageController from './components/PageController';
 import { useStatusFilter } from '@/utils/useStatusFilter';
-import useScrollDetector from '@/utils/useScrollDetector';
-import { useRef, useEffect } from 'react';
+import { useScrollDetector } from '@/utils/useScrollDetector';
+import { RefObject } from 'react';
+import { useScrollPositioning } from '@/utils/useScrollPositioning';
 
 export default function MyReservation() {
   const { value, setValue, status, options } = useStatusFilter();
+
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useReservation(status);
 
   const reservationsData =
     data?.pages.flatMap((page) => page.reservations) ?? [];
 
-  const listRef = useRef<HTMLDivElement>(null);
-  const prevScrollHeightRef = useRef(0);
-  const prevScrollTopRef = useRef(0);
+  const {
+    listRef,
+    prevScrollHeightRef,
+    prevScrollTopRef,
+  }: {
+    listRef: RefObject<HTMLDivElement | null>;
+    prevScrollHeightRef: RefObject<number>;
+    prevScrollTopRef: RefObject<number>;
+  } = useScrollPositioning(status, data);
 
   useScrollDetector(() => {
     if (hasNextPage && !isFetchingNextPage) {
@@ -30,16 +38,6 @@ export default function MyReservation() {
       fetchNextPage();
     }
   });
-
-  useEffect(() => {
-    if (listRef.current) {
-      const heightDiff =
-        listRef.current.scrollHeight - prevScrollHeightRef.current;
-      if (heightDiff > 0) {
-        window.scrollTo({ top: prevScrollTopRef.current, behavior: 'instant' });
-      }
-    }
-  }, [data]);
 
   return (
     <>
