@@ -8,15 +8,42 @@ import useReservation from '@/hooks/useReservation';
 import styles from './style.module.css';
 import PageController from './components/PageController';
 import { useStatusFilter } from '@/utils/useStatusFilter';
+import useScrollDetector from '@/utils/useScrollDetector';
+import { useRef, useEffect, useState } from 'react';
 
 export default function MyReservation() {
   const { value, setValue, status, options } = useStatusFilter();
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useReservation(status);
 
-  const { data: reservationsData, isLoading } = useReservation(status);
+  const reservationsData =
+    data?.pages.flatMap((page) => page.reservations) ?? [];
+
+  const listRef = useRef<HTMLDivElement>(null);
+  const prevScrollHeightRef = useRef(0);
+  const prevScrollTopRef = useRef(0);
+
+  useScrollDetector(() => {
+    if (hasNextPage && !isFetchingNextPage) {
+      prevScrollHeightRef.current = listRef.current?.scrollHeight || 0;
+      prevScrollTopRef.current = window.scrollY;
+      fetchNextPage();
+    }
+  });
+
+  useEffect(() => {
+    if (listRef.current) {
+      const heightDiff =
+        listRef.current.scrollHeight - prevScrollHeightRef.current;
+      if (heightDiff > 0) {
+        window.scrollTo({ top: prevScrollTopRef.current, behavior: 'instant' });
+      }
+    }
+  }, [data]);
 
   return (
     <>
-      <div className={styles.pageContainer}>
+      <div ref={listRef} className={styles.pageContainer}>
         <PageController
           reservationsData={reservationsData}
           status={status}
@@ -24,14 +51,23 @@ export default function MyReservation() {
           setValue={setValue}
           options={options}
         />
+
         {isLoading ? (
           <div className={styles.loading}>
             <Image src='/images/spinner.svg' alt='Loading' fill />
           </div>
         ) : (
           <>
-            {reservationsData!.length > 0 ? (
-              <ReservationList reservationsData={reservationsData} />
+            {reservationsData.length > 0 ? (
+              <>
+                <ReservationList reservationsData={reservationsData} />
+
+                {isFetchingNextPage && (
+                  <div className={styles.loading}>
+                    <Image src='/images/spinner.svg' alt='Loading' fill />
+                  </div>
+                )}
+              </>
             ) : (
               <Empty />
             )}
@@ -42,4 +78,3 @@ export default function MyReservation() {
     </>
   );
 }
-
