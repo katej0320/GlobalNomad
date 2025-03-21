@@ -11,7 +11,6 @@ import { useStatusFilter } from '@/utils/useStatusFilter';
 import { useScrollDetector } from '@/utils/useScrollDetector';
 import { RefObject } from 'react';
 import { useScrollPositioning } from '@/utils/useScrollPositioning';
-import ProfileCard from '@/components/ProfileCard/ProfileCard';
 
 export default function MyReservation() {
   const { value, setValue, status, options } = useStatusFilter();
@@ -41,8 +40,7 @@ export default function MyReservation() {
   });
 
   return (
-    <div className={styles.wrapper}>
-      <ProfileCard activeTab={'myreservation'} />
+    <>
       <div ref={listRef} className={styles.pageContainer}>
         <PageController
           reservationsData={reservationsData}
@@ -75,6 +73,6 @@ export default function MyReservation() {
         )}
       </div>
       <Footer />
-    </div>
+    </>
   );
 }
