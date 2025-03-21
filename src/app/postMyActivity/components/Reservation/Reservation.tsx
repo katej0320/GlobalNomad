@@ -17,6 +17,7 @@ export default function Reservation() {
       alert('날짜를 선택하세요!');
       return;
     }
+
     addSchedule(); // Zustand의 addSchedule() 호출
   };
 

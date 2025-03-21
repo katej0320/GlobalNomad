@@ -1,19 +1,30 @@
 "use client";
 import { useState } from "react";
 import { Plus, X } from "lucide-react";
-import styles from "./postImage.module.css";
+import styles from "./SubImage.module.css";
 
 export default function BannerImage() {
-    const[image, setImage] = useState<File|null>(null);
+  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
 
-    
+  // 파일 선택 시 실행되는 함수
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      const newImages = Array.from(files)
+        .filter((file) => file.type.startsWith("image/")) // ✅ 이미지 파일인지 확인
+        .map((file) => URL.createObjectURL(file));
+
+      if (newImages.length > 0) {
+        setUploadedImages((prevImages) => [...prevImages, ...newImages]);
+      }
+    }
+    event.target.value = ""; // ✅ 같은 파일 다시 업로드 가능하게 input 초기화
+  };
 
   // 이미지 삭제 함수
-  const handleRemoveImage =()=> {
-    setImage(null);
-  }
-    
-
+  const handleRemoveImage = (index: number) => {
+    setUploadedImages((prevImages) => prevImages.filter((_, i) => i !== index));
+  };
 
   return (
     <div >
@@ -34,20 +45,22 @@ export default function BannerImage() {
 
         {/* 업로드된 이미지 미리보기 */}
         <div className={styles.imagePreviewContainer}>
-            <div className={styles.imageItem}>
+          {uploadedImages.map((imageSrc, index) => (
+            <div key={index} className={styles.imageItem}>
               {/* ✅ 이미지 */}
               <div className={styles.imageWrapper}>
                 <img
-                 src={URL.createObjectURL(image!)}
-                  alt="BannerImage"
+                  src={imageSrc}
+                  alt={`Uploaded Preview ${index + 1}`}
                   className={styles.previewImg}
                 />
               </div>
               {/* ✅ X 버튼을 이미지 바깥에 배치 */}
-              <button className={styles.removeButton} onClick={() => handleRemoveImage()}>
+              <button className={styles.removeButton} onClick={() => handleRemoveImage(index)}>
                 <X className={styles.xIcon} strokeWidth={2} size={16} />
               </button>
             </div>
+          ))}
         </div>
       </div>
 
@@ -57,12 +70,7 @@ export default function BannerImage() {
         id="imageUpload"
         accept="image/*"
         multiple
-        onChange={(e) => {
-          const file = e.target.files?.[0]; // 첫 번째 이미지만 가져옴
-          if (file) {
-            setImage(file);
-          }
-        }}
+        onChange={handleImageChange}
         className={styles.hiddenInput}
       />
     </div>
