@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import styles from '@/components/Input/Input.module.css';
+import styles from './customDateInput.module.css';
 import { useState, useRef, forwardRef, useImperativeHandle, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -13,6 +13,7 @@ interface DateInputProps {
   value?: string; // 부모 컴포넌트에서 YYYY-MM-DD 형식의 문자열이 올 수 있음
   type?: string;
   name?: string;
+  className?:string;
 }
 
 const DateInput = forwardRef<DatePicker, DateInputProps>(

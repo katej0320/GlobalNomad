@@ -1,0 +1,46 @@
+.container{
+    display:flex;
+    flex-direction: column;
+}
+
+.subTitles{
+    display: flex;
+    align-items: center;
+}
+
+.subTitles p{
+    font-size: 20px;
+}
+
+.subTitle{
+    margin-right:364px;
+}
+
+.startTime{
+    margin-right: 111px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+.inputWrapper{
+    display: flex;
+    gap: 25px;
+}
+
+.dateInput{
+    width: 379px !important;
+
+}
+
+.customTime{
+    width: 140px;
+}
+
+.customButton{
+    width: 56px;
+    height: 56px;
+}

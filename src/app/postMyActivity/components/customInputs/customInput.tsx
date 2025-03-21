@@ -10,7 +10,7 @@ interface InputProps {
   isErrored?: boolean;
   className?: string;
   name?: string;
-  value?:string;
+  value?:string | number;
   onChange?: ((e: React.ChangeEvent<HTMLInputElement>)=>void);
 }
 
@@ -57,6 +57,8 @@ export default function Input({
   isErrored = false,
   name='', 
   onChange,
+  value,
+  className,
   ...props
 }: InputProps) {
   return (
@@ -72,9 +74,11 @@ export default function Input({
       <div className={styles.subContainer}>
         <input
           id={id}
-          className={`${styles.input} ${isErrored ? styles.errorBorder : ''}`}
+          className={`${styles.input} ${isErrored ? styles.errorBorder : ''} ${className || ''}`}
           type={type}
           placeholder={placeholder}
+          value={value}
+          onChange={onChange}
           {...props}
         />
       </div>

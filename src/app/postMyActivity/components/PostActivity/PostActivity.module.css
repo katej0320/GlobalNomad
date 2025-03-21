@@ -2,11 +2,12 @@
     width: 800px;
     display: flex;
     justify-content: space-between;
+    margin-bottom: 24px;
 }
 
 
 
-.title-large{
+.postTitle{
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 700;

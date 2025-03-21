@@ -1,15 +1,15 @@
 "use client"
-import Input from "@/components/Input/Input"
-
+import Input from "../customInputs/customInput"
+import styles from "./AddressInput.module.css"
  
 
 export default function AddressInput (){
 
 
     return(
-        <div>
+        <div className={styles.container}>
+            <p className={styles.title}>주소</p>
             <Input
-                label="주소"
                 placeholder="주소"
                 id="address"
                 type="string"

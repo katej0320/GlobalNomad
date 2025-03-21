@@ -7,7 +7,7 @@ export default function PostActivity() {
 
     return (
         <div className={styles.container}>
-            <p className="text-4xl">내 체험 등록</p>
+            <p className={styles.postTitle}>내 체험 등록</p>
             <CustomButton
                 href="/myactivities"
                 fontSize="md"

@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import styles from '@/components/Input/Input.module.css';
+import styles from './customTimeSelect.module.css';
 import {
   components,
   SingleValue,
@@ -63,6 +63,7 @@ interface StartEndTimeSelectProps {
   onEndTimeChange: (value: string) => void;
   startTime: string;
   endTime: string;
+  className?: string;
 }
 
 export default function CustomTimeSelect({
@@ -70,7 +71,10 @@ export default function CustomTimeSelect({
   onEndTimeChange,
   startTime,
   endTime,
+  className,
 }: StartEndTimeSelectProps) {
+
+
   // 종료 시간 옵션을 시작 시간 이후로 필터링
   const filteredEndTimeOptions = useMemo(() => {
     if (!startTime) return allTimeOptions; // 시작 시간이 선택되지 않으면 전체 옵션 표시
@@ -80,10 +84,10 @@ export default function CustomTimeSelect({
   return (
     <div className={styles.container}>
       <div>
-        <label>시작 시간</label>
+      
         <Select
           options={allTimeOptions} // 전체 시간 옵션 사용
-          placeholder='시작 시간 선택'
+          placeholder='0:00'
           styles={CustomSelect}
           isClearable
           value={allTimeOptions.find((t) => t.value === startTime) || null}
@@ -92,14 +96,15 @@ export default function CustomTimeSelect({
             onStartTimeChange(option ? option.value : '');
           }}
           components={{ Option: CustomOption }}
+          className={styles.select}
         />
       </div>
-
-      <div style={{ marginTop: '10px' }}>
-        <label>종료 시간</label>
+          <span className={styles.waveSymbol}> ~ </span>
+      <div>
+      
         <Select
           options={filteredEndTimeOptions} // 시작 시간 이후의 옵션만 표시
-          placeholder='종료 시간 선택'
+          placeholder='0:00'
           styles={CustomSelect}
           isClearable
           value={filteredEndTimeOptions.find((t) => t.value === endTime) || null}
@@ -108,6 +113,7 @@ export default function CustomTimeSelect({
             onEndTimeChange(option ? option.value : '');
           }}
           components={{ Option: CustomOption }}
+          className={styles.select}
         />
       </div>
     </div>
