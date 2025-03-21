@@ -7,24 +7,28 @@ import PasswordInput from '@/components/Input/PasswordInput';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { signIn } from '@/lib/auth-api';
-
-interface LoginFormValues {
-  email: string;
-  password: string;
-}
+import { signInSchema, type LoginFormValues } from '@/lib/schemas/auth-schemas';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useAuthStore } from '@/stores/useAuthStore';
 
 export default function SignInForm() {
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<LoginFormValues>({ mode: 'onChange' });
+  } = useForm<LoginFormValues>({
+    mode: 'onChange',
+    resolver: zodResolver(signInSchema),
+  });
 
   const router = useRouter();
 
   const onSubmit = async (data: LoginFormValues) => {
     try {
       const response = await signIn(data);
+      if (response) {
+        useAuthStore.getState().setAuth(response.user);
+      }
       router.push('/');
       return response;
     } catch (error) {
@@ -40,13 +44,7 @@ export default function SignInForm() {
           id='email'
           type='email'
           placeholder='이메일을 입력해 주세요'
-          {...register('email', {
-            required: '이메일은 필수 입력입니다.',
-            pattern: {
-              value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
-              message: '이메일 양식이 틀렸어요',
-            },
-          })}
+          {...register('email')}
         />
         {errors.email && <p className={styles.error}>{errors.email.message}</p>}
       </div>
@@ -54,10 +52,7 @@ export default function SignInForm() {
         <PasswordInput
           label='비밀번호'
           id='password'
-          {...register('password', {
-            required: '비밀번호는 필수 입력입니다.',
-            minLength: { value: 8, message: '8자 이상 입력하세요.' },
-          })}
+          {...register('password')}
         />
         {errors.password && (
           <p className={styles.error}>{errors.password.message}</p>
