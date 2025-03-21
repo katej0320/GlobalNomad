@@ -29,7 +29,7 @@ export default function MyNotification() {
   const fetchSchedule = useCallback(
     async (activityId: number, year: number, month: string) => {
       try {
-        console.log('API 요청 params:', { activityId, year, month });
+        //console.log('API 요청 params:', { activityId, year, month });
 
         const response = await instance.get(
           `/my-activities/${activityId}/reservation-dashboard?year=${year}&month=${month}`,
@@ -39,10 +39,10 @@ export default function MyNotification() {
           throw new Error('데이터가 없습니다.');
         }
 
-        console.log('API 응답 데이터:', response.data);
+        //console.log('API 응답 데이터:', response.data);
         setSchedule(response.data);
       } catch (error) {
-        console.error('🚨 스케줄 데이터를 받아오는 중 에러 발생:', error);
+        console.error('스케줄 데이터를 받아오는 중 에러 발생:', error);
       }
     },
     [],
@@ -68,21 +68,29 @@ export default function MyNotification() {
       <p className={styles.title}>예약 현황</p>
       <p className={styles.dropdownTitle}>체험명 선택</p>
       <Dropdown
-        //dropdownClassName={styles.dropdownList ?? ''}
+        dropdownClassName={styles.dropdownList ?? ''}
         toggleClassName={styles.dropdownList}
+        menuClassName={styles.dropdownList}
+        menuItemClassName={styles.dropdownList}
         options={
           activities?.map((activity) => ({
-            id: activity.id,
-            title: activity.title,
+            value: activity.id,
+            label: activity.title,
           })) || []
         }
-        selected={selectedActivity}
-        onChange={setSelectedActivity}
+        selectedValue={selectedActivity?.id ?? null} // id를 사용
+        onChange={(value) => {
+          const selected =
+            activities?.find((activity) => activity.id === value) || null;
+          setSelectedActivity(selected);
+        }}
       />
+
       {/* 달력 컴포넌트에 데이터 및 변경 이벤트 전달 */}
       <MyNotificationCalendar
         schedule={schedule}
         onMonthChange={handleMonthChange}
+        activityId={selectedActivity?.id ?? 0}
       />
     </div>
   );
