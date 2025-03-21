@@ -9,7 +9,7 @@ import styles from './style.module.css';
 import PageController from './components/PageController';
 import { useStatusFilter } from '@/utils/useStatusFilter';
 import useScrollDetector from '@/utils/useScrollDetector';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
 
 export default function MyReservation() {
   const { value, setValue, status, options } = useStatusFilter();
