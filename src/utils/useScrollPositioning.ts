@@ -3,10 +3,10 @@ import { InfiniteData } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
 
 export function useScrollPositioning(
-  status: string,
   data:
     | InfiniteData<{ reservations: Reservation[]; nextPage?: number }, unknown>
     | undefined,
+  status?: string,
 ) {
   const listRef = useRef<HTMLDivElement>(null);
   const prevScrollHeightRef = useRef(0);
