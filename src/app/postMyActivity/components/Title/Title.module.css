@@ -1,8 +1,12 @@
+.container{
+    margin-bottom: 24px;
+}
+
 .textarea{
     margin-top: 10px;
     border-radius: 4px;
     height: 346px;
-    width: 760px;
+    width: 800px;
     border: 1px solid #79747e;
     padding: 16px 20px;
 }
@@ -14,9 +18,10 @@
   }
 
 .inputTitle{
-    margin-top: 10px;
+    margin-bottom: 24px !important;
 }
 
 .category{
     margin-top: 10px;
+    margin-bottom: 24px;
 }
