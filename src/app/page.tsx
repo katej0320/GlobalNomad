@@ -11,7 +11,7 @@ import Pagination from './landingComponents/Pagination';
 import styles from './landingComponents/LandingPage.module.css';
 
 export default function Home() {
-  const [selectedSort, setSelectedSort] = useState<string | null>(null);
+  const [selectedSort, setSelectedSort] = useState<string | null>('latest');
   const [activities, setActivities] = useState<ActivitiesArray>([]);
   const [popularActivities, setPopularActivities] = useState<ActivitiesArray>(
     [],
@@ -51,23 +51,29 @@ export default function Home() {
   // 체험 리스트 API호출
   useEffect(() => {
     const fetchActivities = async () => {
+      setIsLoading(true);
       try {
         const response = await axios.get('/activities', {
-          params: { method: 'offset', page: currentPage, size: size },
+          params: {
+            method: 'offset',
+            page: currentPage,
+            size: size,
+            sort: selectedSort,
+          },
         });
 
         setActivities(response.data.activities);
         setTotalPages(Math.ceil(response.data.totalCount / size)); // 전체 페이지 수 계산
-        setIsLoading(false);
       } catch (error) {
         console.error('데이터 가져오기 실패:', error);
         setError('데이터를 가져오는 데 실패했습니다.');
+      } finally {
         setIsLoading(false);
       }
     };
 
     fetchActivities();
-  }, [size, currentPage]);
+  }, [size, currentPage, selectedSort]);
 
   // 인기체험 API호출
   useEffect(() => {
