@@ -1,8 +1,9 @@
 import instance from '@/lib/api';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import ReservationInfoByStatus from './ReservationInfoByStatus';
 import CloseButton from '@/components/CloseButton';
 import Dropdown from '@/components/Dropdown';
+import useClickOutside from '@/utils/useClickOutside';
 import styles from './ReservationInfoModal.module.css';
 
 interface ScheduleInfo {
@@ -33,25 +34,35 @@ export default function ReservationInfoModal({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchSchedules = async () => {
-      setLoading(true);
-      try {
-        const response = await instance.get(
-          `/my-activities/${activityId}/reserved-schedule?date=${date}`,
-        );
-        setScheduleList(response.data);
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
-        if (response.data.length > 0) {
-          setSelectedScheduleId(response.data[0].scheduleId);
-        }
-      } catch (error) {
-        setError(`에러 발생: ${error}`);
-      } finally {
-        setLoading(false);
+  // 모달 바깥 클릭 시 onClose 실행
+  useClickOutside({
+    ref: modalRef,
+    setter: () => onClose(),
+  });
+
+  // ReservationInfoModal.tsx
+
+  const fetchSchedules = async () => {
+    setLoading(true);
+    try {
+      const response = await instance.get(
+        `/my-activities/${activityId}/reserved-schedule?date=${date}`,
+      );
+      setScheduleList(response.data);
+
+      if (response.data.length > 0) {
+        setSelectedScheduleId(response.data[0].scheduleId);
       }
-    };
+    } catch (error) {
+      setError(`에러 발생: ${error}`);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchSchedules();
   }, [activityId, date]);
 
@@ -70,47 +81,51 @@ export default function ReservationInfoModal({
 
   if (loading) return <p>로딩 중...</p>;
   if (error) return <p>{error}</p>;
-  if (scheduleList.length === 0) return <p>예약된 스케줄이 없습니다.</p>;
 
   return (
     <div className={styles.modalOverlay}>
-      <div className={styles.modalContent}>
+      <div ref={modalRef} className={styles.modalContent}>
         <div className={styles.header}>
           <p className={styles.modalTitle}>예약 정보</p>
           <CloseButton onClick={onClose} className={styles.closeBtn} />
         </div>
-        <div className={styles.tabContainer}>
-          <button
-            className={
-              selectedStatus === 'pending' ? styles.activeTab : styles.tab
-            }
-            onClick={() => setSelectedStatus('pending')}
-          >
-            신청 {totalPending}
-          </button>
-          <button
-            className={
-              selectedStatus === 'confirmed' ? styles.activeTab : styles.tab
-            }
-            onClick={() => setSelectedStatus('confirmed')}
-          >
-            승인 {totalConfirmed}
-          </button>
-          <button
-            className={
-              selectedStatus === 'declined' ? styles.activeTab : styles.tab
-            }
-            onClick={() => setSelectedStatus('declined')}
-          >
-            거절 {totalDeclined}
-          </button>
-        </div>
+        {scheduleList.length === 0 ? (
+          <p>예약된 스케줄이 없습니다.</p>
+        ) : (
+          <div className={styles.tabContainer}>
+            <button
+              className={
+                selectedStatus === 'pending' ? styles.activeTab : styles.tab
+              }
+              onClick={() => setSelectedStatus('pending')}
+            >
+              신청 {totalPending}
+            </button>
+            <button
+              className={
+                selectedStatus === 'confirmed' ? styles.activeTab : styles.tab
+              }
+              onClick={() => setSelectedStatus('confirmed')}
+            >
+              승인 {totalConfirmed}
+            </button>
+            <button
+              className={
+                selectedStatus === 'declined' ? styles.activeTab : styles.tab
+              }
+              onClick={() => setSelectedStatus('declined')}
+            >
+              거절 {totalDeclined}
+            </button>
+          </div>
+        )}
 
         <div className={styles.underContainer}>
           <p className={styles.semiTitle}>예약 날짜</p>
+          <p className={styles.date}>{date}</p>
           <Dropdown
-            dropdownClassName={styles.dropdownList ?? ''}
-            toggleClassName={styles.dropdownList}
+            dropdownClassName={styles.dropdown ?? ''}
+            toggleClassName={styles.dropdown}
             menuClassName={styles.dropdownList}
             menuItemClassName={styles.dropdownList}
             options={scheduleList.map((schedule) => ({
@@ -129,6 +144,7 @@ export default function ReservationInfoModal({
               activityId={activityId}
               scheduleId={selectedScheduleId}
               status={selectedStatus}
+              onStatusChange={fetchSchedules}
             />
           )}
         </div>
