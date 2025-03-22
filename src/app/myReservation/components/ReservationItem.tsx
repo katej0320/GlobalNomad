@@ -7,6 +7,7 @@ import styles from '../style.module.css';
 import { RESERVATION_STATUS } from '@/constants/ReservationStatus';
 import useFormatDate from '@/utils/useFormatDate';
 import { Reservation } from '@/lib/types';
+import { useDateUtils } from '@/utils/useDateUtils';
 
 interface Props {
   reservationsData: Reservation[] | undefined;
@@ -41,6 +42,10 @@ export default function ReservationItem({
     setImageSrcMap((prev) => ({ ...prev, [id]: '/images/no_thumbnail.png' }));
   };
 
+  function DateUtils(date: string | undefined, startTime: string | undefined) {
+    return useDateUtils(date, startTime);
+  }
+
   function FormattedDate(date: string) {
     const formatted = useFormatDate(date);
 
@@ -64,10 +69,23 @@ export default function ReservationItem({
         return (
           <li
             key={reservation.id}
-            className={styles.reservationBox}
-            onClick={() => handleNavigate(String(activity.id))}
+            className={`${styles.reservationBox} ${
+              DateUtils(reservation.date, reservation.startTime) &&
+              styles.noClick
+            }`}
+            onClick={() =>
+              !DateUtils(reservation.date, reservation.startTime) &&
+              handleNavigate(String(activity.id))
+            }
           >
+            {DateUtils(reservation.date, reservation.startTime) && (
+              <div className={styles.overlay}></div>
+            )}
+
             <div className={styles.thumbnail}>
+              {DateUtils(reservation.date, reservation.startTime) && (
+                <div className={styles.overlay}></div>
+              )}
               <Image
                 src={
                   imageSrcMap[activity.id] ||
@@ -77,6 +95,7 @@ export default function ReservationItem({
                 alt='썸네일'
                 fill
                 sizes='100vw'
+                style={{ objectFit: 'cover' }}
                 priority
                 onError={() => handleImageError(String(activity.id))}
               />
@@ -104,7 +123,8 @@ export default function ReservationItem({
                 <div className={styles.price}>
                   ₩{reservation.totalPrice?.toLocaleString('ko-KR')}
                 </div>
-                {statusInfo.text === '예약 신청' ? (
+                {statusInfo.text === '예약 신청' &&
+                !DateUtils(reservation.date, reservation.startTime) ? (
                   <CustomButton
                     style={cancelReservationButton}
                     onClick={(e) => {
@@ -121,6 +141,8 @@ export default function ReservationItem({
                   >
                     후기 작성
                   </CustomButton>
+                ) : DateUtils(reservation.date, reservation.startTime) ? (
+                  <div className={styles.notice}>기한 만료</div>
                 ) : (
                   ''
                 )}
