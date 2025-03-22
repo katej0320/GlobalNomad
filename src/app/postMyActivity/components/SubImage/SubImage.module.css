@@ -9,12 +9,13 @@
     display: flex;
     align-items: center;
     gap: 10px;
+   
 }
 
 .uploadButton {
     position: relative;
     cursor:pointer;
-    margin-right: 20px;
+    /* margin-right: 20px; */
 }
 
 
@@ -59,8 +60,10 @@
 
 /* 이미지 미리보기 컨테이너 */
 .imagePreviewContainer {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 한 줄에 최대 3개 */
     gap: 20px;
+   
 }
 
 /* 업로드된 이미지 */
@@ -105,4 +108,10 @@
     color: white;
     width: 25px;
     height: 25px;
+}
+
+.imageAlert{
+    font-size: 18px;
+    color: #4b4b4b;
+    margin-top: 5px;
 }
