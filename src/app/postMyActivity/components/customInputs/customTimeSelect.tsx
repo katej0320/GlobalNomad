@@ -9,7 +9,7 @@ import {
   GroupBase,
   OptionProps,
 } from 'react-select';
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 
 // SSR 문제 해결을 위해 클라이언트 전용으로 동적 임포트
 const Select = dynamic(() => import('react-select'), { ssr: false });
@@ -20,7 +20,7 @@ const Select = dynamic(() => import('react-select'), { ssr: false });
 const generateTimeOptions = (): { value: string; label: string }[] => {
   const times = [];
   for (let hour = 0; hour < 24; hour++) {
-    for (let minute of ['00', '30']) {
+    for (const minute of ['00', '30']) {
       const time = `${hour.toString().padStart(2, '0')}:${minute}`;
       times.push({ value: time, label: time });
     }
@@ -70,7 +70,7 @@ export default function CustomTimeSelect({
   onEndTimeChange,
   startTime,
   endTime,
-  className,
+  className, // eslint-disable-line @typescript-eslint/no-unused-vars
 }: StartEndTimeSelectProps) {
 
 

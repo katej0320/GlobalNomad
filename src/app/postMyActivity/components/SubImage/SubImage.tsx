@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { Plus, X } from 'lucide-react';
 import styles from './SubImage.module.css';
+import Image from 'next/image';
 
 export default function SubImage() {
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
@@ -33,7 +34,7 @@ export default function SubImage() {
       <div className={styles.container}>
         {/* 이미지 등록 버튼 */}
         {/* <label htmlFor="subImageUpload" className={styles.uploadButton}>
-          <img
+          <Image
             className={styles.buttonImg}
             src="/images/postImage.png"
             alt="postImageButton"
@@ -48,10 +49,12 @@ export default function SubImage() {
         <div className={styles.imagePreviewContainer}>
           {/* 이미지 등록 버튼 */}
           <label htmlFor='subImageUpload' className={styles.uploadButton}>
-            <img
+            <Image
               className={styles.buttonImg}
               src='/images/postImage.png'
               alt='postImageButton'
+              width={180}
+              height={180}
             />
             <div className={styles.buttonComponents}>
               <Plus strokeWidth={1} className={styles.plusSign} size={50} />
@@ -62,10 +65,12 @@ export default function SubImage() {
             <div key={index} className={styles.imageItem}>
               {/* ✅ 이미지 */}
               <div className={styles.imageWrapper}>
-                <img
+                <Image
                   src={imageSrc}
                   alt={`Uploaded Preview ${index + 1}`}
                   className={styles.previewImg}
+                  width={180}
+                  height={180}
                 />
               </div>
               {/* ✅ X 버튼을 이미지 바깥에 배치 */}

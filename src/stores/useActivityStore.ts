@@ -15,6 +15,7 @@ interface ActivityData {
   schedules: Schedule[];
   bannerImageUrl: string;
   subImageUrls: string[];
+  subImageFiles: File[]; 
   startTime: string;
   endTime: string;  
   date: string;
@@ -37,6 +38,7 @@ export const useActivityStore = create<ActivityStore>((set) => ({
       schedules: [],
       bannerImageUrl: "",
       subImageUrls: [],
+      subImageFiles: [],
       date: "",  // ✅ 추가됨
       startTime: "0:00", // 기본값
       endTime: "0:00",   // 기본값
