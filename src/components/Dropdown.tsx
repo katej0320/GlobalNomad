@@ -37,7 +37,7 @@ export default function Dropdown<
 
   return (
     <div
-      className={`${styles.dropdown} ${dropdownClassName}`}
+      className={`${styles.dropdown} ${dropdownClassName}`.trim()}
       ref={dropdownRef}
     >
       <button
@@ -49,7 +49,7 @@ export default function Dropdown<
       </button>
 
       {isOpen && (
-        <ul className={`${styles.menu} ${menuClassName}`}>
+        <ul className={[styles.menu, menuClassName].filter(Boolean).join(' ')}>
           {options.map((option) => (
             <li
               key={option.value}
