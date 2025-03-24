@@ -4,13 +4,13 @@ import { useState, useEffect } from 'react';
 import axios from '@/lib/api';
 import { ActivitiesArray } from '@/lib/types';
 import CustomButton from '@/components/CustomButton';
+// import Footer from '@/components/footer/Footer';
 import PopularActivities from './landingComponents/PopulorActivities';
 import ActivitiesList from './landingComponents/ActivitiesList';
 import Pagination from './landingComponents/Pagination';
 import Category from './landingComponents/Category';
 import styles from './landingComponents/LandingPage.module.css';
 
-// params 타입 정의
 interface ActivitiesParams {
   method: string;
   page: number;
@@ -32,7 +32,8 @@ export default function Home() {
   const [selectedSort, setSelectedSort] = useState<string | null>('latest');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [keyword, setKeyword] = useState<string>(''); // 검색어 상태 추가
+  const [inputValue, setInputValue] = useState<string>(''); // 입력 필드 상태
+  const [keyword, setKeyword] = useState<string>(''); // 실제 검색에 사용되는 상태
   const [searchMode, setSearchMode] = useState(false); // 검색 모드 활성화 여부
 
   const categories = [
@@ -80,7 +81,7 @@ export default function Home() {
     fetchPopularActivities();
   }, []);
 
-  // 체험 리스트 API 호출 (검색어가 없을 때에도 호출)
+  // 체험 리스트 API 호출
   useEffect(() => {
     const fetchActivities = async () => {
       setIsLoading(true);
@@ -112,7 +113,7 @@ export default function Home() {
       }
     };
 
-    fetchActivities(); // 초기 렌더링 시에도 호출되도록
+    fetchActivities();
   }, [size, currentPage, selectedSort, selectedCategory, keyword]);
 
   // 페이지 변경
@@ -123,27 +124,23 @@ export default function Home() {
   // 카테고리 클릭 시 필터링
   const handleCategoryClick = (category: string) => {
     if (selectedCategory === category) {
-      setSelectedCategory(null); // 같은 카테고리 클릭 시 필터링 해제
+      setSelectedCategory(null);
     } else {
-      setSelectedCategory(category); // 카테고리 선택 시 필터링
+      setSelectedCategory(category);
     }
   };
 
-  // 검색 버튼 클릭 시 검색 실행
+  // 검색 버튼 클릭 시 실행
   const handleSearch = () => {
-    if (keyword === '') {
-      setSearchMode(false); // 검색어가 비어있을 때는 초기 상태로 복귀
-      setSelectedCategory(null); // 카테고리 필터 해제
-      setCurrentPage(1); // 첫 페이지로 초기화
-    } else {
-      setSearchMode(true); // 검색 모드 활성화
-      setCurrentPage(1); // 첫 페이지로 초기화
-    }
+    setKeyword(inputValue); // 검색어를 업데이트
+    setSearchMode(inputValue !== ''); // 검색어가 비어있지 않으면 검색 모드 활성화
+    setSelectedCategory(null); // 카테고리 필터 해제
+    setCurrentPage(1); // 첫 페이지로 초기화
   };
 
-  // 검색어 입력 변경
+  // 입력 필드 값 변경
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setKeyword(e.target.value);
+    setInputValue(e.target.value);
   };
 
   // Enter 키 입력 시 검색 실행
@@ -172,9 +169,9 @@ export default function Home() {
               <input
                 type='text'
                 className={styles.searchInput}
-                value={keyword}
+                value={inputValue}
                 onChange={handleInputChange}
-                onKeyDown={handleKeyPress} // Enter 키 이벤트 추가
+                onKeyDown={handleKeyPress}
                 placeholder='내가 원하는 체험은'
               />
               <CustomButton
@@ -201,9 +198,7 @@ export default function Home() {
         </div>
       ) : (
         <>
-          {/* 인기체험 리스트 */}
           <PopularActivities activities={popularActivities} />
-          {/* 카테고리 */}
           <Category
             categories={categories}
             selectedCategory={selectedCategory}
@@ -228,6 +223,8 @@ export default function Home() {
         totalPages={totalPages}
         setPage={handlePageChange}
       />
+
+      {/* <Footer /> */}
     </>
   );
 }
