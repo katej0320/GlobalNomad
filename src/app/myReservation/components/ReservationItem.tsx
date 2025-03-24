@@ -12,15 +12,19 @@ import { useDateUtils } from '@/utils/useDateUtils';
 interface Props {
   reservationsData: Reservation[] | undefined;
   setShowModal: React.Dispatch<SetStateAction<boolean>>;
+  setModalType: React.Dispatch<SetStateAction<string>>;
   setIsModalMessage: React.Dispatch<SetStateAction<string>>;
   handleNavigate: (activityId: string) => void;
+  setCancelId: React.Dispatch<SetStateAction<number | undefined>>;
 }
 
 export default function ReservationItem({
   reservationsData,
+  setModalType,
   setShowModal,
   setIsModalMessage,
   handleNavigate,
+  setCancelId,
 }: Props) {
   const cancelReservationButton: React.CSSProperties = {
     padding: '8px 20px',
@@ -52,9 +56,11 @@ export default function ReservationItem({
     return <span>{formatted.slice(0, formatted.length - 1)}</span>;
   }
 
-  function handleCancelReservation() {
+  function handleCancelReservation(id: number | undefined) {
+    setModalType('cancel');
     setShowModal(true);
     setIsModalMessage('예약을 취소하시겠어요?');
+    setCancelId(id);
   }
 
   function handleWriteReview() {}
@@ -129,7 +135,7 @@ export default function ReservationItem({
                     style={cancelReservationButton}
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleCancelReservation();
+                      handleCancelReservation(reservation.id);
                     }}
                   >
                     예약 취소
