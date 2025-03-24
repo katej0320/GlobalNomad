@@ -19,7 +19,7 @@ const useCancelReservation = () => {
 
   return useMutation<void, Error, number>({
     mutationFn: fetchCancelReservation,
-    onSuccess: (_, variables) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['reservation'] });
     },
     onError: (error) => {
@@ -29,4 +29,3 @@ const useCancelReservation = () => {
 };
 
 export default useCancelReservation;
-
