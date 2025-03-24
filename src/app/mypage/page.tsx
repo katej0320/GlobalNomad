@@ -6,11 +6,13 @@ import { User } from '@/lib/types';
 import Image from 'next/image';
 import ProfileCard from '@/components/ProfileCard/ProfileCard';
 import CustomButton from '@/components/CustomButton';
+import ProfileUpdateModal from './components/ProfileUpdateModal';
 import styles from './MyPage.module.css';
 
 export default function MyPage() {
   const [myProfile, setMyProfile] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetchMyProfile = async () => {
     try {
@@ -27,6 +29,23 @@ export default function MyPage() {
     fetchMyProfile();
   }, []);
 
+  const handleUpdate = (updateUserInfo: {
+    nickname: string;
+    profileImageUrl: string;
+    newPassword: string;
+  }) => {
+    setMyProfile((prev) =>
+      prev
+        ? {
+            ...prev,
+            nickname: updateUserInfo.nickname,
+            profileImageUrl: updateUserInfo.profileImageUrl,
+          }
+        : null,
+    );
+    setIsModalOpen(false);
+  };
+
   if (loading) return <div>로딩 중...</div>;
 
   return (
@@ -37,7 +56,12 @@ export default function MyPage() {
       <div className={styles.container}>
         <div className={styles.header}>
           <p className={styles.title}>내 정보</p>
-          <CustomButton className={styles.button} fontSize='sm' variant='black'>
+          <CustomButton
+            className={styles.button}
+            fontSize='sm'
+            variant='black'
+            onClick={() => setIsModalOpen(true)}
+          >
             수정하기
           </CustomButton>
         </div>
@@ -66,6 +90,19 @@ export default function MyPage() {
           </div>
         </div>
       </div>
+
+      {/* 모달 렌더링 */}
+      {isModalOpen && myProfile && (
+        <ProfileUpdateModal
+          user={{
+            nickname: myProfile.nickname,
+            email: myProfile.email,
+            profileImageUrl: myProfile.profileImageUrl,
+          }}
+          onUpdate={handleUpdate}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </div>
   );
 }
