@@ -83,7 +83,6 @@
     padding: 0 16px; 
   }
 }
-
 .title span {
   font-weight: 400;
 }
@@ -122,6 +121,9 @@
     padding: 16px 24px;
     gap: 10px;
   }
+  @media (max-width: 375px) { 
+    padding: 16px; 
+  }
 }
 .searchContainer h1 {
   color: var(--nomad-dark);
@@ -146,17 +148,31 @@
 }
 .searchInput {
   flex: 1;
-  border: none;
-  outline: none;
+  color: var(--nomad-dark);
   font-size: 16px;
-  padding: 10px;
+  font-weight: 400;
+  padding: 12px 16px 10px;
+  border: 1px solid var(--gray-light);
   border-radius: 4px;
-  background-color: #f5f5f5;
+  outline: none;
+
+  @media (max-width: 450px) {
+    font-size: 14px;
+  }
+}
+.searchInput::placeholder {
+  color: var(--gray-soft);
+  font-size: 16px;
+  font-weight: 400;
+
+  @media (max-width: 450px) {
+    font-size: 14px;
+  }
 }
 
 /* 검색 버튼 */
 .searchBtn {
-  min-width: 90px;
+  min-width: 70px;
   padding: 8px 38px 6px;
 
   @media (max-width: 660px) {
@@ -164,7 +180,8 @@
   }
   @media (max-width: 450px) {
     font-size: 14px;
-    padding: 8px 10px 6px;
+    font-weight: 500;
+    padding: 8px 5px 6px;
   }
 }
 
