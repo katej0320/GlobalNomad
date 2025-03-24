@@ -6,8 +6,6 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { usePathname } from 'next/navigation';
 import Nav from '@/components/nav/Nav';
 
-const queryClient = new QueryClient();
-
 export default function ClientLayout({
   children,
 }: {
