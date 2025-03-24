@@ -1,6 +1,6 @@
 .container {
   max-width: 1200px;
-  margin: 30px auto 60px;
+  margin: 110px auto 60px;
   text-align: left;
   position: relative;
 
@@ -8,8 +8,11 @@
     max-width: auto; 
     padding: 0 24px; 
   } 
+  @media (max-width: 550px) {
+    margin-top: 90px;
+  }
   @media (max-width: 450px) {
-    margin: 20px auto 40px;
+    margin: 80px auto 40px;
   }
   @media (max-width: 375px) { 
     padding: 0 16px; 
