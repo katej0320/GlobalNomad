@@ -4,7 +4,9 @@ import { useState, useEffect } from 'react';
 import instance from '@/lib/api';
 import { User } from '@/lib/types';
 import Image from 'next/image';
+import ProfileCard from '@/components/ProfileCard/ProfileCard';
 import CustomButton from '@/components/CustomButton';
+import styles from './MyPage.module.css';
 
 export default function MyPage() {
   const [myProfile, setMyProfile] = useState<User | null>(null);
@@ -28,22 +30,42 @@ export default function MyPage() {
   if (loading) return <div>로딩 중...</div>;
 
   return (
-    <div>
-      <h1>내 정보</h1>
-      <CustomButton fontSize='sm' variant='black'>
-        수정하기
-      </CustomButton>
+    <div className={styles.wrapper}>
+      <div className={styles.profileCard}>
+        <ProfileCard activeTab='mypage' />
+      </div>
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <p className={styles.title}>내 정보</p>
+          <CustomButton className={styles.button} fontSize='sm' variant='black'>
+            수정하기
+          </CustomButton>
+        </div>
 
-      {myProfile?.profileImageUrl && (
-        <Image
-          src={myProfile.profileImageUrl}
-          width={160}
-          height={160}
-          alt='프로필 이미지'
-        />
-      )}
-      <p>닉네임: {myProfile?.nickname}</p>
-      <p>이메일: {myProfile?.email}</p>
+        <div className={styles.contentContainer}>
+          <div>
+            {myProfile?.profileImageUrl && (
+              <Image
+                className={styles.profileImage}
+                src={myProfile.profileImageUrl}
+                width={160}
+                height={160}
+                alt='프로필 이미지'
+              />
+            )}
+          </div>
+          <div className={styles.contents}>
+            <div className={styles.contentWrapper}>
+              <p className={styles.semiTitle}>닉네임</p>
+              <p className={styles.value}>{myProfile?.nickname}</p>
+            </div>
+            <div className={styles.contentWrapper}>
+              <p className={styles.semiTitle}>이메일</p>
+              <p className={styles.value}>{myProfile?.email}</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

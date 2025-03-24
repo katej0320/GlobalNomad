@@ -78,64 +78,6 @@ export default function ReservationInfoModal({
     (sum, schedule) => sum + schedule.count.declined,
     0,
   );
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const modalRef = useRef<HTMLDivElement | null>(null);
-
-  // 모달 바깥 클릭 시 onClose 실행
-  useClickOutside({
-    ref: modalRef,
-    setter: () => onClose(),
-  });
-
-  const modalRef = useRef<HTMLDivElement | null>(null);
-
-  // 모달 바깥 클릭 시 onClose 실행
-  useClickOutside({
-    ref: modalRef,
-    setter: () => onClose(),
-  });
-
-  // ReservationInfoModal.tsx
-
-  const fetchSchedules = async () => {
-    setLoading(true);
-    try {
-      const response = await instance.get(
-        `/my-activities/${activityId}/reserved-schedule?date=${date}`,
-      );
-      setScheduleList(response.data);
-
-      if (response.data.length > 0) {
-        setSelectedScheduleId(response.data[0].scheduleId);
-      }
-    } catch (error) {
-      setError(`에러 발생: ${error}`);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchSchedules();
-  }, [activityId, date]);
-
-  const totalPending = scheduleList.reduce(
-    (sum, schedule) => sum + schedule.count.pending,
-    0,
-  );
-  const totalConfirmed = scheduleList.reduce(
-    (sum, schedule) => sum + schedule.count.confirmed,
-    0,
-  );
-  const totalDeclined = scheduleList.reduce(
-    (sum, schedule) => sum + schedule.count.declined,
-    0,
-  );
-
-  if (loading) return <p>로딩 중...</p>;
-  if (error) return <p>{error}</p>;
 
   if (loading) return <p>로딩 중...</p>;
   if (error) return <p>{error}</p>;
