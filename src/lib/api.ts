@@ -2,9 +2,9 @@ import axios, {
   AxiosInstance,
   AxiosError,
   InternalAxiosRequestConfig,
-} from "axios";
-import Cookies from "js-cookie";
-import { tokens } from "@/lib/types";
+} from 'axios';
+import Cookies from 'js-cookie';
+import { tokens } from '@/lib/types';
 
 const BASE_URL = 'https://sp-globalnomad-api.vercel.app/12-2';
 
@@ -36,7 +36,7 @@ instance.interceptors.request.use(
     }
     return config;
   },
-  (error: AxiosError) => Promise.reject(error)
+  (error: AxiosError) => Promise.reject(error),
 );
 
 // 401(토큰만료)시 갱신
@@ -45,22 +45,22 @@ instance.interceptors.response.use(
   async (error: AxiosError) => {
     if (error.response?.status === 401) {
       try {
-        const refreshToken = Cookies.get("refreshToken");
+        const refreshToken = Cookies.get('refreshToken');
         if (!refreshToken) {
-          throw new Error("! Refresh token이 없습니다.");
+          throw new Error('! Refresh token이 없습니다.');
         }
 
         // refreshToken, accessToken을 사용하여 새로운 accessToken을 발급
         const { data } = await axios.post<tokens>(`${BASE_URL}/auth/tokens`, {
           refreshToken,
-          accessToken: Cookies.get("accessToken"),
+          accessToken: Cookies.get('accessToken'),
         });
 
         // 새 토큰 저장
         //localStorage.setItem("accessToken", data.accessToken);
-        Cookies.set("accessToken", data.accessToken);
+        Cookies.set('accessToken', data.accessToken);
         //localStorage.setItem("refreshToken", data.refreshToken);
-        Cookies.set("refreshToken", data.refreshToken);
+        Cookies.set('refreshToken', data.refreshToken);
 
         if (!error.config) return Promise.reject(error);
         const initialRequest = error.config as InternalAxiosRequestConfig & {
@@ -76,15 +76,15 @@ instance.interceptors.response.use(
 
         return instance(initialRequest);
       } catch (error) {
-        console.error("토큰 갱신 실패: ", error);
-        Cookies.remove("accessToken");
-        Cookies.remove("refreshToken");
-        window.location.href = "/signin"; // 토큰 오류 발생시 로그인 페이지로 이동
+        console.error('토큰 갱신 실패: ', error);
+        Cookies.remove('accessToken');
+        Cookies.remove('refreshToken');
+        window.location.href = '/signin'; // 토큰 오류 발생시 로그인 페이지로 이동
       }
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default instance;
