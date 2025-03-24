@@ -1,14 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import axios from '@/lib/api';
 import { ActivitiesArray } from '@/lib/types';
-import CustomButton from '@/components/CustomButton';
-// import Footer from '@/components/footer/Footer';
+import axios from '@/lib/api';
+import Search from './landingComponents/Search';
 import PopularActivities from './landingComponents/PopulorActivities';
 import ActivitiesList from './landingComponents/ActivitiesList';
 import Pagination from './landingComponents/Pagination';
 import Category from './landingComponents/Category';
+// import Footer from '@/components/footer/Footer';
 import styles from './landingComponents/LandingPage.module.css';
 
 interface ActivitiesParams {
@@ -17,7 +17,7 @@ interface ActivitiesParams {
   size: number;
   sort: string | null;
   category?: string | null;
-  keyword?: string | null; // 검색어 필드 추가
+  keyword?: string | null;
 }
 
 export default function Home() {
@@ -32,9 +32,9 @@ export default function Home() {
   const [selectedSort, setSelectedSort] = useState<string | null>('latest');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [inputValue, setInputValue] = useState<string>(''); // 입력 필드 상태
+  const [inputValue, setInputValue] = useState<string>('');
   const [keyword, setKeyword] = useState<string>(''); // 실제 검색에 사용되는 상태
-  const [searchMode, setSearchMode] = useState(false); // 검색 모드 활성화 여부
+  const [searchMode, setSearchMode] = useState(false);
 
   const categories = [
     '문화 · 예술',
@@ -161,38 +161,20 @@ export default function Home() {
           <p className={styles.text2}>1월의 인기체험 BEST</p>
         </div>
 
-        {/* 검색 기능 */}
-        <div className={styles.container}>
-          <div className={styles.searchContainer}>
-            <h1>무엇을 체험하고 싶으신가요?</h1>
-            <div className={styles.inputContainer}>
-              <input
-                type='text'
-                className={styles.searchInput}
-                value={inputValue}
-                onChange={handleInputChange}
-                onKeyDown={handleKeyPress}
-                placeholder='내가 원하는 체험은'
-              />
-              <CustomButton
-                onClick={handleSearch}
-                className={styles.searchBtn}
-                fontSize='md'
-                variant='black'
-              >
-                검색하기
-              </CustomButton>
-            </div>
-          </div>
-        </div>
+        <Search
+          inputValue={inputValue}
+          onInputChange={handleInputChange}
+          onSearch={handleSearch}
+          onKeyPress={handleKeyPress}
+        />
       </div>
 
-      {/* 검색 모드일 때 */}
+      {/* 검색 모드일 때 or 아닐 때 */}
       {searchMode ? (
         <div className={styles.searchResult}>
           <h2 className={styles.title}>
             &quot;{keyword}&quot;
-            <span>으로 검색한 결과입니다.</span>
+            <span>로 검색한 결과입니다.</span>
           </h2>
           <p className={styles.resultCount}>총 {activities.length}개의 결과</p>
         </div>
@@ -212,7 +194,6 @@ export default function Home() {
         </>
       )}
 
-      {/* 체험 리스트 */}
       <ActivitiesList
         activities={activities}
         isLoading={isLoading}
