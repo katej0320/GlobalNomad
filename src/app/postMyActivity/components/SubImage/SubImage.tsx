@@ -1,102 +1,119 @@
 'use client';
-import { useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { Plus, X } from 'lucide-react';
-import styles from './SubImage.module.css';
 import Image from 'next/image';
+import styles from './SubImage.module.css';
+import { useActivityStore } from '@/stores/useActivityStore';
+import useUploadImagesMutation from '@/hooks/useImageUrl';
+
+
 
 export default function SubImage() {
-  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { activity, setActivity } = useActivityStore();
+  const { mutate: uploadImages } = useUploadImagesMutation();
+  const [previewUrls, setPreviewUrls] = useState<string[]>([]);
 
-  // 파일 선택 시 실행되는 함수
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files) {
-      const newImages = Array.from(files)
-        .filter((file) => file.type.startsWith('image/')) // ✅ 이미지 파일인지 확인
-        .map((file) => URL.createObjectURL(file));
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
 
-      const combinedImages = [...uploadedImages, ...newImages].slice(0, 4);
+    const validFiles = Array.from(files).filter((file) =>
+      file.type.startsWith('image/')
+    );
 
-      setUploadedImages(combinedImages);
+    validFiles.forEach((file) => {
+      // 파일 → 업로드
+      const formData = new FormData();
+      formData.append('image', file);
 
-      event.target.value = ''; // ✅ 같은 파일 다시 업로드 가능하게 input 초기화
-    }
+      uploadImages(formData, {
+        onSuccess: (data: any) => {
+          setActivity({
+            subImageUrls: [...activity.subImageUrls, data.activityImageUrl],
+            subImageFiles: [...activity.subImageFiles, file],
+          });
+        },
+        onError: () => {
+          alert('서브 이미지 업로드 실패');
+        },
+      });
+    });
+
+    // 같은 파일 다시 업로드 가능하게 초기화
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
-  // 이미지 삭제 함수
+  useEffect(() => {
+    const objectUrls = activity.subImageFiles.map((file) =>
+      URL.createObjectURL(file)
+    );
+    setPreviewUrls(objectUrls);
+
+    return () => {
+      objectUrls.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [activity.subImageFiles]);
+
   const handleRemoveImage = (index: number) => {
-    setUploadedImages((prevImages) => prevImages.filter((_, i) => i !== index));
+    setActivity({
+      subImageUrls: activity.subImageUrls.filter((_, i) => i !== index),
+    });
   };
 
   return (
     <div>
-      <p className={styles.title}>소개 이미지</p>
+      <p className={styles.title}>서브 이미지</p>
       <div className={styles.container}>
-        {/* 이미지 등록 버튼 */}
-        {/* <label htmlFor="subImageUpload" className={styles.uploadButton}>
+        {/* 업로드 버튼 */}
+        <label htmlFor="subImageUpload" className={styles.uploadButton}>
           <Image
-            className={styles.buttonImg}
             src="/images/postImage.png"
-            alt="postImageButton"
+            alt="upload"
+            width={180}
+            height={180}
+            className={styles.buttonImg}
           />
           <div className={styles.buttonComponents}>
             <Plus strokeWidth={1} className={styles.plusSign} size={50} />
             <p className={styles.buttonText}>이미지 등록</p>
           </div>
-        </label> */}
+        </label>
 
-        {/* 업로드된 이미지 미리보기 */}
+        {/* 이미지 프리뷰 */}
         <div className={styles.imagePreviewContainer}>
-          {/* 이미지 등록 버튼 */}
-          <label htmlFor='subImageUpload' className={styles.uploadButton}>
-            <Image
-              className={styles.buttonImg}
-              src='/images/postImage.png'
-              alt='postImageButton'
-              width={180}
-              height={180}
-            />
-            <div className={styles.buttonComponents}>
-              <Plus strokeWidth={1} className={styles.plusSign} size={50} />
-              <p className={styles.buttonText}>이미지 등록</p>
-            </div>
-          </label>
-          {uploadedImages.map((imageSrc, index) => (
+        {previewUrls.map((url, index) => (
             <div key={index} className={styles.imageItem}>
-              {/* ✅ 이미지 */}
               <div className={styles.imageWrapper}>
                 <Image
-                  src={imageSrc}
-                  alt={`Uploaded Preview ${index + 1}`}
-                  className={styles.previewImg}
+                  src={url}
+                  alt={`sub-${index}`}
                   width={180}
                   height={180}
+                  className={styles.previewImg}
                 />
               </div>
-              {/* ✅ X 버튼을 이미지 바깥에 배치 */}
               <button
                 className={styles.removeButton}
                 onClick={() => handleRemoveImage(index)}
               >
-                <X className={styles.xIcon} strokeWidth={2} size={16} />
+                <X className={styles.xIcon} size={16} strokeWidth={2} />
               </button>
             </div>
           ))}
-         
         </div>
       </div>
 
-      {/* 숨겨진 파일 업로드 input */}
       <input
-        type='file'
-        id='subImageUpload'
-        accept='image/*'
+        ref={fileInputRef}
+        type="file"
+        id="subImageUpload"
+        accept="image/*"
         multiple
         onChange={handleImageChange}
         className={styles.hiddenInput}
       />
-      <p className ={styles.imageAlert}>*이미지는 최대 4개까지 등록가능합니다.</p>
+      <p className={styles.imageAlert}>*이미지는 최대 4개까지 등록 가능합니다.</p>
     </div>
-    
   );
 }

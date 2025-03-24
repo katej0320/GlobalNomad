@@ -3,42 +3,59 @@ import { useEffect, useState } from 'react';
 import { Plus, X } from 'lucide-react';
 import styles from './postImage.module.css';
 import Image from 'next/image';
+import { useActivityStore } from "@/stores/useActivityStore";
+import useUploadImagesMutation from '@/hooks/useImageUrl';
 
 export default function BannerImage() {
-  const [image, setImage] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null); // eslint-disable-line @typescript-eslint/no-unused-vars
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  const bannerImageFile = useActivityStore((state) => state.activity.bannerImageFile);
+  const setActivity = useActivityStore((state) => state.setActivity);
+
+  const { mutate: uploadImages } = useUploadImagesMutation();
+
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file && file.type.startsWith("image/")) {
-      setImage(file);
-    }
+    if (!file || !file.type.startsWith('image/')) return;
+
+    // Zustand에 저장
+    setActivity({ bannerImageFile: file });
+
+    // 업로드 즉시 실행
+    const formData = new FormData();
+    formData.append('image', file);
+
+    uploadImages(formData, {
+      onSuccess: (data:any) => {
+        useActivityStore.getState().setActivity({
+          bannerImageUrl: data.activityImageUrl,
+        });
+      },
+      onError: () => {
+        alert('이미지 업로드 실패');
+      }
+    });
   };
 
-  // 이미지 삭제 함수
   const handleRemoveImage = () => {
-    setImage(null);
+    setActivity({ bannerImageFile: null, bannerImageUrl: '' });
+    setPreviewUrl(null);
   };
 
   useEffect(() => {
-    if(image) {
-      const objectUrl = URL.createObjectURL(image);
+    if (bannerImageFile) {
+      const objectUrl = URL.createObjectURL(bannerImageFile);
       setPreviewUrl(objectUrl);
-
-      return() => {
-        URL.revokeObjectURL(objectUrl);
-      };
+      return () => URL.revokeObjectURL(objectUrl);
     } else {
       setPreviewUrl(null);
     }
-    }, [image]
-  )
-
+  }, [bannerImageFile]);
 
   return (
     <div>
       <p className={styles.title}>배너 이미지</p>
       <div className={styles.container}>
-        {/* 이미지 등록 버튼 */}
         <label htmlFor='bannerImageUpload' className={styles.uploadButton}>
           <Image
             className={styles.buttonImg}
@@ -46,7 +63,6 @@ export default function BannerImage() {
             alt='postImageButton'
             width={180}
             height={180}
-
           />
           <div className={styles.buttonComponents}>
             <Plus strokeWidth={1} className={styles.plusSign} size={50} />
@@ -54,25 +70,19 @@ export default function BannerImage() {
           </div>
         </label>
 
-        {/* 업로드된 이미지 미리보기 */}
         <div className={styles.imagePreviewContainer}>
-          {image && (
+          {previewUrl && (
             <div className={styles.imageItem}>
-              {/* ✅ 이미지 */}
               <div className={styles.imageWrapper}>
                 <Image
-                  src={URL.createObjectURL(image!)}
+                  src={previewUrl}
                   alt='BannerImage'
                   className={styles.previewImg}
                   width={180}
                   height={180}
                 />
               </div>
-              {/* ✅ X 버튼을 이미지 바깥에 배치 */}
-              <button
-                className={styles.removeButton}
-                onClick={() => handleRemoveImage()}
-              >
+              <button className={styles.removeButton} onClick={handleRemoveImage}>
                 <X className={styles.xIcon} strokeWidth={2} size={16} />
               </button>
             </div>
@@ -80,7 +90,6 @@ export default function BannerImage() {
         </div>
       </div>
 
-      {/* 숨겨진 파일 업로드 input */}
       <input
         type='file'
         id='bannerImageUpload'

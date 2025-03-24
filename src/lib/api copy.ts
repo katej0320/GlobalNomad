@@ -16,7 +16,7 @@ const instance: AxiosInstance = axios.create({
   baseURL: BASE_URL,
   headers: {
     Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTc1NiwidGVhbUlkIjoiMTItMiIsImlhdCI6MTc0MjgwNDYwNywiZXhwIjoxNzQyODA2NDA3LCJpc3MiOiJzcC1nbG9iYWxub21hZCJ9.6fEXHjTmAhNiz_vYakD3ndmXAfz4N4u3NrAzKD1Q4qA`, // << 하드코딩으로 데이터 확인할 때
-    'Content-Type': 'application/json',
+    'Content-Type': 'multipart/form-data',
   },
   params: {
     method: 'offset',

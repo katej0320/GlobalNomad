@@ -1,13 +1,14 @@
-"use client"
+'use client';
 
-import CustomButton from "@/components/CustomButton";
-import styles from "./PostActivity.module.css";
-import usePostMyActivities from "@/hooks/usePostMyActivity";
-import { useActivityStore } from "@/stores/useActivityStore";
-import { useRouter } from "next/navigation";
+import CustomButton from '@/components/CustomButton';
+import styles from './PostActivity.module.css';
+import usePostMyActivities from '@/hooks/usePostMyActivity';
+import { useActivityStore } from '@/stores/useActivityStore';
+import { useRouter } from 'next/navigation';
 
 export default function PostActivity() {
   const router = useRouter();
+  const { mutate: postActivity, isPending: posting } = usePostMyActivities(); // ✅ 여기로 옮기기
 
   const {
     activity: {
@@ -16,66 +17,56 @@ export default function PostActivity() {
       description,
       address,
       price,
-      schedules, // eslint-disable-line @typescript-eslint/no-unused-vars
       bannerImageUrl,
       subImageUrls,
       date,
       startTime,
       endTime,
+      schedules,
     },
-  } = useActivityStore();
-
-  const { mutate, isPending } = usePostMyActivities();
+  } = useActivityStore(); // ✅ 이것도 최상단에서 호출
 
   const handleSubmit = () => {
-    const formData = new FormData();
 
-    formData.append("title", String(title ?? ""));
-    formData.append("category", category);
-    formData.append("description", description);
-    formData.append("address", address);
-    formData.append("price", price.toString());
 
-    formData.append("date", date);
-    formData.append("startTime", startTime);
-    formData.append("endTime", endTime);
+    const payload = {
+      title,
+      category,
+      description,
+      address,
+      price,
+      date,
+      startTime,
+      endTime,
+      bannerImageUrl,
+      subImageUrls: subImageUrls.filter(Boolean),
+      schedules,
+    };
 
-    if (bannerImageUrl) {
-      formData.append("bannerImage", bannerImageUrl); // File 객체라고 가정
-    }
-
-    subImageUrls.forEach((file) => {
-      formData.append("subImages", file); // 파일 배열 추가
-    });
-
-    mutate(formData, {
+    postActivity(payload, {
       onSuccess: () => {
-        alert("등록 성공!");
-        router.push("/myactivities");
+        alert('등록 성공!');
+        router.push('/myactivities');
       },
-      onError: (err) => {
-        console.error("등록 실패:", err);
-        alert("등록 중 오류가 발생했습니다.");
+      onError: () => {
+        alert('등록 실패!');
       },
     });
+    console.log("🔥 payload 확인:", payload);
   };
 
-
-    return (
-        <div className={styles.container}>
-            <p className={styles.postTitle}>내 체험 등록</p>
-            <CustomButton
-                onClick={handleSubmit}
-                fontSize="md"
-                className={`"customButton-black" ${styles.custombutton}`}
-                disabled={isPending}
-            >
-                {isPending ? "등록 중..." : "등록하기"}
-               
-            </CustomButton>
-
-        </div>
-    )
+  return (
+    <div className={styles.container}>
+      <p className={styles.postTitle}>내 체험 등록</p>
+      <CustomButton
+        onClick={handleSubmit}
+        fontSize="md"
+        className={`customButton-black ${styles.custombutton}`}
+        disabled={posting}
+      >
+        {posting ? '등록 중...' : '등록하기'}
+      </CustomButton>
+    </div>
+  );
 }
-
 
