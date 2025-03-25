@@ -1,6 +1,4 @@
-'use client';
-
-import React from 'react';
+import React, { useState } from 'react';
 import CustomButton from '@/components/CustomButton';
 import styles from './Search.module.css';
 
@@ -17,18 +15,27 @@ export default function Search({
   onSearch,
   onKeyPress,
 }: SearchProps) {
+  const [isFocused, setIsFocused] = useState(false);
+
   return (
     <div className={styles.container}>
       <div className={styles.searchContainer}>
         <h1>무엇을 체험하고 싶으신가요?</h1>
-        <div className={styles.inputContainer}>
+        <div
+          className={`${styles.inputContainer} ${
+            isFocused || inputValue ? styles.focused : ''
+          }`}
+        >
+          <label className={styles.placeholder}>내가 원하는 체험은</label>
           <input
             type='text'
             className={styles.searchInput}
             value={inputValue}
             onChange={onInputChange}
             onKeyDown={onKeyPress}
-            placeholder='내가 원하는 체험은 ?'
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            placeholder=''
           />
           <CustomButton
             onClick={onSearch}
