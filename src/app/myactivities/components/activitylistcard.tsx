@@ -23,7 +23,12 @@ export default function ActivityListCard({
       <div className={styles.info}>
         <div className={styles.upperInfo}>
           <div className={styles.reviews}>
-            <Image width={19} height={19}src='/images/Star.png' alt='review-star' />
+            <Image
+              width={19}
+              height={19}
+              src='/images/Star.png'
+              alt='review-star'
+            />
             <p className={styles.rating}>{activities.rating}</p>
             <p className={styles.reviewCount}>({activities.reviewCount})</p>
           </div>

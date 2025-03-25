@@ -16,7 +16,9 @@ const instance: AxiosInstance = axios.create({
   baseURL: BASE_URL,
   headers: {
 
+
     Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTc1NiwidGVhbUlkIjoiMTItMiIsImlhdCI6MTc0Mjg3MzYzMiwiZXhwIjoxNzQyODc1NDMyLCJpc3MiOiJzcC1nbG9iYWxub21hZCJ9.XFdkLxV1klYi_JTm1qDOubnhE9Whih6KXnjoltcirTs`, // << 하드코딩으로 데이터 확인할 때
+
     'Content-Type': 'application/json',
   },
   params: {
@@ -24,8 +26,6 @@ const instance: AxiosInstance = axios.create({
     offset: 0,
   },
 });
-
-/* token 관리 */
 
 // 데이터 요청 시작시 토큰을 헤더에 담는 과정
 instance.interceptors.request.use(
