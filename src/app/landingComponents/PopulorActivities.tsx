@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { FaStar } from 'react-icons/fa';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -15,7 +15,6 @@ interface Props {
 export default function PopularActivities({ activities }: Props) {
   const [index, setIndex] = useState(0);
   const [itemsSize, setItemsSize] = useState(3);
-  const [sortedActivities, setSortedActivities] = useState<ActivitiesArray>([]);
   const [imageSrcMap, setImageSrcMap] = useState<{ [key: number]: string }>({});
 
   // 화면 사이즈 별 데이터 업로드 갯수
@@ -35,23 +34,22 @@ export default function PopularActivities({ activities }: Props) {
     return () => window.removeEventListener('resize', updateSize);
   }, []);
 
+  // 인기 체험 목록 평점 내림차순 정렬 (useMemo 사용)
+  const sortedActivities = useMemo(() => {
+    return [...activities].sort((a, b) => {
+      const ratingA = a.rating ?? 0;
+      const ratingB = b.rating ?? 0;
+      return ratingB - ratingA; // 평점 내림차순
+    });
+  }, [activities]);
+
   // 인기목록 자동 스크롤
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % sortedActivities.length);
     }, 4000);
     return () => clearInterval(interval);
-  }, [sortedActivities.length]);
-
-  // 인기 체험 목록 평점 내림차순 정렬
-  useEffect(() => {
-    const sorted = [...activities].sort((a, b) => {
-      const ratingA = a.rating ?? 0;
-      const ratingB = b.rating ?? 0;
-      return ratingB - ratingA; // 평점 내림차순
-    });
-    setSortedActivities(sorted);
-  }, [activities]);
+  }, [sortedActivities]); // sortedActivities 의존성 추가
 
   // 이미지 로드 실패 시 기본 이미지로 변경
   const handleImageError = (id: number) => {
@@ -65,6 +63,7 @@ export default function PopularActivities({ activities }: Props) {
   const nextSlide = () => {
     setIndex((prev) => (prev + 1) % sortedActivities.length);
   };
+
   // 이전으로 돌아감
   const prevSlide = () => {
     setIndex(
