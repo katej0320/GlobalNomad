@@ -1,9 +1,10 @@
-"use client"
+'use client';
 
-import MyActivityContainer from "./components/myactivitycontainer"
+import MyActivityContainer from './components/myactivitycontainer';
 
 
 export default function MyActivities(){
+    
 
     return(
         <div>
@@ -13,3 +14,4 @@ export default function MyActivities(){
         </div>
     )
 }
+

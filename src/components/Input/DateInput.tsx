@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import styles from "./Input.module.css";
-import { useState, useRef } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css"; // 기본 CSS
+import Image from 'next/image';
+import styles from './Input.module.css';
+import { useState, useRef } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css'; // 기본 CSS
 
 /**
  *  공용 DateInput
@@ -52,16 +52,16 @@ export default function DateInput({ label, id, onChange }: DateInputProps) {
           id={id}
           selected={startDate} // 선택된 날짜 상태
           onChange={handleChange} // 날짜 변경 시 업데이트
-          dateFormat="yy/MM/dd" // 표시 형식
-          placeholderText="YY/MM/DD" // 플레이스홀더 (null 상태일 때만 보임)
+          dateFormat='yy/MM/dd' // 표시 형식
+          placeholderText='YY/MM/DD' // 플레이스홀더 (null 상태일 때만 보임)
           wrapperClassName={styles.datePickerWrapper}
           className={styles.input}
           ref={datePickerRef}
         />
         <div className={styles.dateIcon} onClick={handleIconClick}>
           <Image
-            src="/images/calendar.svg"
-            alt="달력 아이콘"
+            src='/images/calendar.svg'
+            alt='달력 아이콘'
             width={32}
             height={32}
           />
