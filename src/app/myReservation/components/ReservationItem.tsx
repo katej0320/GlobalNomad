@@ -80,14 +80,16 @@ export default function ReservationItem({
               handleNavigate(String(activity.id))
             }
           >
-            {isPastDateTime(reservation.date, reservation.startTime) && (
-              <div className={styles.overlay}></div>
-            )}
-
-            <div className={styles.thumbnail}>
-              {isPastDateTime(reservation.date, reservation.startTime) && (
+            {statusInfo.text === '예약 신청' &&
+              isPastDateTime(reservation.date, reservation.startTime) && (
                 <div className={styles.overlay}></div>
               )}
+
+            <div className={styles.thumbnail}>
+              {statusInfo.text === '예약 신청' &&
+                isPastDateTime(reservation.date, reservation.startTime) && (
+                  <div className={styles.overlay}></div>
+                )}
               <Image
                 src={
                   imageSrcMap[activity.id] ||
