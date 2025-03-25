@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import Dropdown from '@/components/Dropdown';
 import MyNotificationCalendar from './components/Calendar';
-import useMyActivities from '@/hooks/useMyActivities';
-import instance from '@/lib/api';
+import useMyActivities from '@/hooks/query/useMyActivities';
+import useScheduleByMonth from '@/hooks/query/useScheduleByMonth';
 import ProfileCard from '@/components/ProfileCard/ProfileCard';
 import Footer from '@/components/footer/Footer';
 import styles from './MyNotification.module.css';
@@ -28,7 +28,6 @@ export default function MyNotification() {
     id: number;
     title: string;
   } | null>(null);
-  const [schedule, setSchedule] = useState([]);
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [currentMonth, setCurrentMonth] = useState(
     String(new Date().getMonth() + 1).padStart(2, '0'),
@@ -41,36 +40,23 @@ export default function MyNotification() {
   }, [activities]);
 
   // API 요청
-  const fetchSchedule = useCallback(
-    async (activityId: number, year: number, month: string) => {
-      try {
-        //console.log('API 요청 params:', { activityId, year, month });
-
-        const response = await instance.get(
-          `/my-activities/${activityId}/reservation-dashboard?year=${year}&month=${month}`,
-        );
-
-        if (!response?.data) {
-          throw new Error('데이터가 없습니다.');
-        }
-
-        //console.log('API 응답 데이터:', response.data);
-        setSchedule(response.data);
-      } catch (error) {
-        console.error('스케줄 데이터를 받아오는 중 에러 발생:', error);
-      }
-    },
-    [],
+  const {
+    data: schedule = [],
+    isLoading: isScheduleLoading,
+    error: scheduleError,
+  } = useScheduleByMonth(
+    selectedActivity?.id ?? null,
+    currentYear,
+    currentMonth,
   );
 
-  useEffect(() => {
-    if (selectedActivity?.id) {
-      fetchSchedule(selectedActivity.id, currentYear, currentMonth);
-    }
-  }, [selectedActivity, currentYear, currentMonth, fetchSchedule]);
+  if (isLoading || isScheduleLoading) return <p>로딩 중...</p>;
 
-  if (isLoading) return <p>로딩 중...</p>;
-  if (error instanceof Error) return <p>에러 발생: {error.message}</p>;
+  const errorMessage =
+    (error instanceof Error ? error.message : '') ||
+    (scheduleError instanceof Error ? scheduleError.message : '');
+
+  if (errorMessage) return <p>에러 발생: {errorMessage}</p>;
 
   // 캘린더에서 연/월이 변경될 때 전송
   const handleMonthChange = (activeStartDate: Date) => {
@@ -108,11 +94,13 @@ export default function MyNotification() {
             }}
           />
 
-          <MyNotificationCalendar
-            schedule={schedule}
-            onMonthChange={handleMonthChange}
-            activityId={selectedActivity?.id ?? 0}
-          />
+          {selectedActivity && (
+            <MyNotificationCalendar
+              schedule={schedule}
+              onMonthChange={handleMonthChange}
+              activityId={selectedActivity.id}
+            />
+          )}
         </div>
       </div>
       <footer>
