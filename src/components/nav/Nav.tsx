@@ -9,7 +9,9 @@ import NotificationModal from '../notification/NotificationModal';
 
 export default function Nav() {
   const [isProfileCard, setIsProfileCard] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -49,14 +51,10 @@ export default function Nav() {
             />
           </Link>
         </div>
-        {/* 로그인 전 */}
-        {/* <div className={styles.noTokenUI}>
-          <Link href="/signin">로그인</Link>
-          <Link href="/signup">회원가입</Link>
-        </div> */}
-        {/* 로그인 후 */}
+
         <div className={styles.hasTokenUI}>
-          <div className={styles.notice}>
+          {/* 알림 아이콘 클릭 시 모달 열기 */}
+          <div className={styles.notice} onClick={() => setIsModalOpen(true)}>
             <Image
               src='/images/icon_notification.svg'
               width={20}
@@ -65,6 +63,18 @@ export default function Nav() {
               className={styles.iconNotice}
             />
           </div>
+
+          {/* 모달 렌더링 (isModalOpen이 true일 때만) */}
+          {isModalOpen && (
+            <div ref={modalRef}>
+              <NotificationModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+              />
+            </div>
+          )}
+
+          {/* 프로필 영역 */}
           <div
             className={styles.profile}
             ref={profileRef}
