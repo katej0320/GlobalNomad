@@ -114,7 +114,6 @@ export default function MyNotificationCalendar({
       />
 
       {/* 모달이 열릴 때만 렌더링 */}
-
       {isModalOpen && selectedDate && (
         <ReservationInfoModal
           activityId={activityId}
