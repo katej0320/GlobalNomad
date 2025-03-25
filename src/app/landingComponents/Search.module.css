@@ -50,6 +50,7 @@
 
 /* 검색값 입력 필드 */
 .inputContainer {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 16px;
@@ -58,41 +59,69 @@
     gap: 8px;
   }
 }
+
 .searchInput {
   flex: 1;
-  color: var(--nomad-dark);
+  color: var(--gray-dark);
   font-size: 16px;
   font-weight: 400;
-  padding: 12px 16px 10px;
+  padding: 14px 16px 8px;
   border: 1px solid var(--gray-light);
   border-radius: 4px;
   outline: none;
+  background: transparent;
 
   @media (max-width: 550px) {
     font-size: 14px;
   }
 }
+.searchInput:focus {
+  border-color: var(--gray-dark);
+}
+/* 기존 placeholder 숨김 */
 .searchInput::placeholder {
+  color: transparent;
+}
+
+/* 플로팅 라벨 */
+.placeholder {
+  position: absolute;
+  left: 16px;
+  top: 50%;
   color: var(--gray-soft);
   font-size: 16px;
   font-weight: 400;
+  transform: translateY(-50%);
+  transition: all 0.2s ease-in-out;
+  pointer-events: none;
 
   @media (max-width: 550px) {
+    left: 10px;
     font-size: 14px;
   }
+}
+/* input에 포커스 또는 값이 있을 때 위로 이동 */
+.inputContainer.focused .placeholder,
+.searchInput:not(:placeholder-shown) + .placeholder {
+  background-color: var(--white);
+  font-size: 12px;
+  padding: 0 8px;
+  top: 2px;
 }
 
 /* 검색 버튼 */
 .searchBtn {
   min-width: 70px;
+  height: 43.5px;
   padding: 8px 38px 6px;
-
+  
   @media (max-width: 660px) {
     padding: 8px 20px 6px;
   }
   @media (max-width: 550px) {
     font-size: 14px;
     font-weight: 500;
+    height: 40.5px;
     padding: 8px 5px 6px;
   }
 }

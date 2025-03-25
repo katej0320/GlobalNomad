@@ -34,7 +34,7 @@ export default function PopularActivities({ activities }: Props) {
     return () => window.removeEventListener('resize', updateSize);
   }, []);
 
-  // 인기 체험 목록 평점 내림차순 정렬 (useMemo 사용)
+  // 인기 체험 목록 평점 내림차순 정렬
   const sortedActivities = useMemo(() => {
     return [...activities].sort((a, b) => {
       const ratingA = a.rating ?? 0;
@@ -120,7 +120,7 @@ export default function PopularActivities({ activities }: Props) {
                   <div className={styles.activitiesRating}>
                     <FaStar color='var(--yellow)' size={14} />
                     <p>
-                      {activity.rating ?? 0} {/* 기본값 0 */}
+                      {activity.rating ?? 0}
                       <span> ({activity.reviewCount})</span>
                     </p>
                   </div>
