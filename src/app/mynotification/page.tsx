@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import Dropdown from '@/components/Dropdown';
 import MyNotificationCalendar from './components/Calendar';
 import ReservationInfoModal from './components/ReservationInfoModal';
@@ -18,7 +18,7 @@ type Activity = {
 export default function MyNotification() {
   const {
     data: activities = [],
-    isLoading: isActivitiesLoading,
+    //isLoading: isActivitiesLoading,
     error: activitiesError,
   } = useMyActivities() as {
     data: Activity[];
@@ -29,6 +29,7 @@ export default function MyNotification() {
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(
     null,
   );
+  const [activeStartDate, setActiveStartDate] = useState<Date>();
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [currentMonth, setCurrentMonth] = useState(
     String(new Date().getMonth() + 1).padStart(2, '0'),
@@ -51,22 +52,16 @@ export default function MyNotification() {
   // 월별 예약 스케줄 호출
   const {
     data: schedule = [],
-    isLoading: isScheduleLoading,
+    //isLoading: isScheduleLoading,
     error: scheduleError,
   } = useScheduleByMonth(selectedActivityId, currentYear, currentMonth);
 
-  const handleMonthChange = useCallback(
-    (activeStartDate: Date) => {
-      const newYear = activeStartDate.getFullYear();
-      const newMonth = String(activeStartDate.getMonth() + 1).padStart(2, '0');
-
-      if (currentYear !== newYear || currentMonth !== newMonth) {
-        setCurrentYear(newYear);
-        setCurrentMonth(newMonth);
-      }
-    },
-    [currentYear, currentMonth],
-  );
+  // 캘린더에서 연/월이 변경될 때 전송
+  const handleMonthChange = (activeStartDate: Date) => {
+    setActiveStartDate(activeStartDate);
+    setCurrentYear(activeStartDate.getFullYear());
+    setCurrentMonth(String(activeStartDate.getMonth() + 1).padStart(2, '0'));
+  };
 
   const handleDateClick = (date: Date) => {
     const dateString = date.toISOString().split('T')[0];
@@ -74,7 +69,7 @@ export default function MyNotification() {
   };
 
   // 로딩 및 에러 처리
-  if (isActivitiesLoading || isScheduleLoading) return <p>로딩 중...</p>;
+  //if (isActivitiesLoading || isScheduleLoading) return <p>로딩 중...</p>;
 
   const errorMessage =
     (activitiesError instanceof Error ? activitiesError.message : '') ||
@@ -112,14 +107,13 @@ export default function MyNotification() {
           {selectedActivity && (
             <>
               <MyNotificationCalendar
-                key={`${selectedActivity.id}-${currentYear}-${currentMonth}`} // 리렌더 제어
+                activeStartDate={activeStartDate}
                 schedule={schedule}
                 onMonthChange={handleMonthChange}
                 onDateClick={handleDateClick}
                 activityId={selectedActivity.id}
               />
 
-              {/* 모달은 포탈로 분리하거나, 조건부 렌더를 최소화 */}
               {selectedDate && (
                 <ReservationInfoModal
                   activityId={selectedActivity.id}

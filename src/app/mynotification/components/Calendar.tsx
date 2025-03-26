@@ -14,6 +14,7 @@ type ScheduleData = {
 };
 
 interface MyNotificationCalendarProps {
+  activeStartDate?: Date;
   schedule?: ScheduleData[];
   onMonthChange?: (activeStartDate: Date) => void;
   onDateClick?: (date: Date) => void;
@@ -21,6 +22,7 @@ interface MyNotificationCalendarProps {
 }
 
 export default function MyNotificationCalendar({
+  activeStartDate,
   schedule = [],
   onMonthChange,
   onDateClick,
@@ -64,8 +66,10 @@ export default function MyNotificationCalendar({
   return (
     <div>
       <Calendar
+        activeStartDate={activeStartDate}
         onChange={(date) => handleDateClick(date as Date)}
         onActiveStartDateChange={({ activeStartDate }) => {
+          console.log('activeStartDate:: ', activeStartDate);
           if (activeStartDate) {
             onMonthChange?.(activeStartDate);
           }
