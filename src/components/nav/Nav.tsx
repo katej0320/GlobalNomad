@@ -98,7 +98,12 @@ export default function Nav() {
                   isProfileCard ? styles.active : ''
                 }`}
               >
-                {isProfileCard && <NavProfileCard />}
+                {isProfileCard && (
+                  <NavProfileCard
+                    imageSrcMap={imageSrcMap}
+                    handleImageError={handleImageError}
+                  />
+                )}
               </div>
             </div>
           </div>
