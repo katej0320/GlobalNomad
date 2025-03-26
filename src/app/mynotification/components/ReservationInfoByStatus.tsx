@@ -16,12 +16,14 @@ export default function ReservationInfoByStatus({
   scheduleId,
   status,
 }: Props) {
+  // 상태에따른 스케줄 데이터 호출
   const {
     data: reservations = [],
     isLoading,
     error,
   } = useReservationsByStatus(activityId, scheduleId, status);
 
+  // 상태 변경시 호출
   const mutation = useUpdateReservationStatus(activityId, scheduleId, status);
 
   const handleUpdateStatus = (

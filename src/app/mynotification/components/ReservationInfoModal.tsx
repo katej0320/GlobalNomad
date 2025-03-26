@@ -25,6 +25,8 @@ export default function ReservationInfoModal({
   const [selectedScheduleId, setSelectedScheduleId] = useState<number | null>(
     null,
   );
+
+  // 선택된 활동&날짜로 해당 날짜의 스케줄 불러옴
   const {
     data: scheduleList = [],
     isLoading,
@@ -58,8 +60,8 @@ export default function ReservationInfoModal({
     0,
   );
 
-  if (loading) return <p>로딩 중...</p>;
-  if (error) return <p>{error}</p>;
+  if (isLoading) return <p>로딩 중...</p>;
+  if (error) return <p>{error.message}</p>;
 
   return (
     <div className={styles.modalOverlay}>
@@ -123,7 +125,6 @@ export default function ReservationInfoModal({
               activityId={activityId}
               scheduleId={selectedScheduleId}
               status={selectedStatus}
-              onStatusChange={fetchSchedules}
             />
           )}
         </div>
