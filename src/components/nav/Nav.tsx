@@ -1,42 +1,21 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './nav.module.css';
 import NavProfileCard from './NavProfileCard';
 import NotificationModal from '../notification/NotificationModal';
+import useClickOutside from '@/utils/useClickOutside';
 
 export default function Nav() {
-  const [isProfileCard, setIsProfileCard] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const profileRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      // 프로필 카드 바깥 클릭 시 닫기
-      if (
-        profileRef.current &&
-        !profileRef.current.contains(event.target as Node)
-      ) {
-        setIsProfileCard(false);
-      }
+  const [isProfileCard, setIsProfileCard] = useState(false);
+  const profileRef = useRef<HTMLDivElement>(null);
 
-      // 알림 모달 바깥 클릭 시 닫기
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
-      ) {
-        setIsModalOpen(false);
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+  useClickOutside({ ref: profileRef, setter: setIsProfileCard });
 
   return (
     <nav className={styles.nav}>
