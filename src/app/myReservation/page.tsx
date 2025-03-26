@@ -29,7 +29,7 @@ export default function MyReservation() {
     listRef: RefObject<HTMLDivElement | null>;
     prevScrollHeightRef: RefObject<number>;
     prevScrollTopRef: RefObject<number>;
-  } = useScrollPositioning(data, status);
+  } = useScrollPositioning(data);
 
   useScrollDetector(() => {
     if (hasNextPage && !isFetchingNextPage) {
