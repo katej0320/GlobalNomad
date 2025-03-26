@@ -47,7 +47,7 @@ export default function PopularActivities({ activities }: Props) {
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % sortedActivities.length);
-    }, 4000);
+    }, 3000);
     return () => clearInterval(interval);
   }, [sortedActivities]); // sortedActivities 의존성 추가
 
