@@ -2,10 +2,9 @@
 .modalOverlay {
   position: absolute;
   z-index: 1000;
-  top: 75px;
-  right: 0;
+  top: 53px;
+  right: 146px;
   width: auto;
-  /* height: 100%; */
   display: flex;
   justify-content: center;
   align-items: center;
