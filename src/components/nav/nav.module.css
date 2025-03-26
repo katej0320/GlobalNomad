@@ -65,7 +65,10 @@
     align-items: center;
     cursor: pointer;
 
-    .noProfileImg {
+    & > .profileImg {
+      position:relative;
+      width: 32px;
+      height: 32px;
       margin-right: 10px;
       border-radius: 50%;
       border: 1px solid var(--gray-lightest);
