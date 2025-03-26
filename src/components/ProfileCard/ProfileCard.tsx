@@ -21,14 +21,14 @@ const tab = [
   },
   {
     key: 'myactivities',
-    label: '예약 내역',
+    label: '내 체험 관리',
     href: '/myactivities',
     img: '/images/icon_menu2.svg',
     activeImg: '/images/icon_menu2_active.svg',
   },
   {
     key: 'myreservation',
-    label: '내 체험 관리',
+    label: '예약 내역',
     href: '/myreservation',
     img: '/images/icon_menu3.svg',
     activeImg: '/images/icon_menu3_active.svg',
