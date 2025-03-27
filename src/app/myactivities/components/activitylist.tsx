@@ -63,4 +63,5 @@ export default function ActivityList({ status }: {status: string}) {
     ))}
   </div>
 );
+
 }

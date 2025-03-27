@@ -1,5 +1,7 @@
 
+
 import { Reservation,Activities } from '@/lib/types';
+
 import { InfiniteData } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
 
