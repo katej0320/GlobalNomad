@@ -37,19 +37,19 @@ export default function Dropdown<
 
   return (
     <div
-      className={`${styles.dropdown} ${dropdownClassName}`.trim()}
+      className={`${styles.dropdown} ${dropdownClassName}`}
       ref={dropdownRef}
     >
       <button
         className={`${styles.toggleBtn} ${toggleClassName}`}
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        {selectedOption?.label ?? '필터'}
+        {selectedOption?.label ?? '선택'}
         {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
       </button>
 
       {isOpen && (
-        <ul className={[styles.menu, menuClassName].filter(Boolean).join(' ')}>
+        <ul className={`${styles.menu} ${menuClassName}`}>
           {options.map((option) => (
             <li
               key={option.value}
