@@ -6,6 +6,7 @@ import styles from './SubImage.module.css';
 import { useActivityStore } from '@/stores/useActivityStore';
 import useUploadImagesMutation from '@/hooks/query/useImageUrl';
 
+
 export default function SubImage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { activity, setActivity } = useActivityStore();
@@ -26,7 +27,7 @@ export default function SubImage() {
       formData.append('image', file);
 
       uploadImages(formData, {
-        onSuccess: (data: any) => {
+        onSuccess: (data: any) => {  // eslint-disable-line @typescript-eslint/no-explicit-any
           setActivity({
             subImageUrls: [...activity.subImageUrls, data.activityImageUrl],
             subImageFiles: [...activity.subImageFiles, file],
