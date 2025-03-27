@@ -24,7 +24,7 @@ export function useScrollPositioning(
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
-  }, [status]);
+  }, []);
 
   return { listRef, prevScrollHeightRef, prevScrollTopRef };
 } 

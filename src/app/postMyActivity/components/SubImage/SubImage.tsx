@@ -28,7 +28,7 @@ export default function SubImage() {
       formData.append('image', file);
 
       uploadImages(formData, {
-        onSuccess: (data: any) => {
+        onSuccess: (data: any) => {  // eslint-disable-line @typescript-eslint/no-explicit-any
           setActivity({
             subImageUrls: [...activity.subImageUrls, data.activityImageUrl],
             subImageFiles: [...activity.subImageFiles, file],

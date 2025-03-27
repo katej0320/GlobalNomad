@@ -3,8 +3,8 @@ import styles from '../myactivities.module.css';
 
 import CustomButton from "@/components/CustomButton"
 import ActivityList from "./activitylist"
-import useMyActivities from "@/hooks/useMyActivities";
-import Empty from "@/components/empty/Empty"
+
+
 
    
 export default function MyActivityContainer() {
