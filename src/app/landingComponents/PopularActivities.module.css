@@ -121,6 +121,10 @@
   position: absolute;
   bottom: 0;
   left: 0;
+
+  @media (max-width: 620px) {
+    padding: 20px;
+  }
 }
 
  /* 평점 */
@@ -155,6 +159,12 @@
   }
 }
 
+.infoPrice {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .price {
   font-size: 20px;
   font-weight: 700;
@@ -170,4 +180,15 @@
   color: var(--gray-light);
   font-size: 14px;
   font-weight: 400;
+}
+
+.rank {
+  color: var(--gray-muted);
+  font-size: 12px;
+  font-weight: 400;
+  margin-right: 10px;
+  
+  @media (max-width: 550px) {
+    margin-right: 0;
+  }
 }

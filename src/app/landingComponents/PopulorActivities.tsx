@@ -1,5 +1,3 @@
-'use client';
-
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -56,6 +54,8 @@ export default function PopularActivities({ activities }: Props) {
   const getVisibleActivities = () => {
     const start = index;
     const end = start + itemsSize;
+
+    // 활동들을 슬라이드에 맞게 자르고, 순위를 매김
     return activities
       .slice(start, end)
       .concat(activities.slice(0, Math.max(0, end - activities.length)));
@@ -68,7 +68,7 @@ export default function PopularActivities({ activities }: Props) {
     }, 4000);
 
     return () => clearInterval(interval); // 컴포넌트가 unmount될 때 interval을 clear
-  }, [activities, nextSlide]); // activities.length와 nextSlide를 의존성으로 추가
+  }, [activities, nextSlide]);
 
   return (
     <div className={styles.container}>
@@ -87,41 +87,57 @@ export default function PopularActivities({ activities }: Props) {
 
       {/* 인기 체험 목록 */}
       <div className={styles.carousel}>
-        {getVisibleActivities().map((activity) => (
-          <div key={activity.id} className={styles.card}>
-            <Link href={`/activities/${activity.id}`}>
-              <div className={styles.activityImage}>
-                <Image
-                  src={
-                    imageSrcMap[activity.id] ||
-                    activity.bannerImageUrl ||
-                    '/images/no_thumbnail.png'
-                  }
-                  alt={activity.title || '체험 이미지 입니다.'}
-                  fill
-                  style={{ objectFit: 'cover' }}
-                  priority
-                  onError={() => handleImageError(activity.id)}
-                />
-              </div>
-              <div className={styles.info}>
-                {/* 평점 */}
-                <div className={styles.activitiesRating}>
-                  <FaStar color='var(--yellow)' size={14} />
-                  <p>
-                    {activity.rating ?? 0}
-                    <span> ({activity.reviewCount})</span>
-                  </p>
-                </div>
+        {getVisibleActivities().map((activity) => {
+          // 전체 리스트에서 순위를 매긴다
+          const sortedActivities = [...activities].sort(
+            (a, b) => (b.rating ?? 0) - (a.rating ?? 0),
+          );
 
-                <h3>{activity.title}</h3>
-                <p className={styles.price}>
-                  ₩ {activity.price?.toLocaleString()} <span>/ 인</span>
-                </p>
-              </div>
-            </Link>
-          </div>
-        ))}
+          // 활동의 순위는 전체 정렬된 목록에서의 인덱스 + 1로 계산
+          const order =
+            sortedActivities.findIndex((act) => act.id === activity.id) + 1;
+
+          return (
+            <div key={activity.id} className={styles.card}>
+              <Link href={`/activities/${activity.id}`}>
+                <div className={styles.activityImage}>
+                  <Image
+                    src={
+                      imageSrcMap[activity.id] ||
+                      activity.bannerImageUrl ||
+                      '/images/no_thumbnail.png'
+                    }
+                    alt={activity.title || '체험 이미지 입니다.'}
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    priority
+                    onError={() => handleImageError(activity.id)}
+                  />
+                </div>
+                <div className={styles.info}>
+                  {/* 평점 */}
+                  <div className={styles.activitiesRating}>
+                    <FaStar color='var(--yellow)' size={14} />
+                    <p>
+                      {activity.rating ?? 0}
+                      <span> ({activity.reviewCount})</span>
+                    </p>
+                  </div>
+
+                  <h3>{activity.title}</h3>
+                  <div className={styles.infoPrice}>
+                    <p className={styles.price}>
+                      ₩ {activity.price?.toLocaleString()} <span>/ 인</span>
+                    </p>
+                    <p className={styles.rank}>
+                      {order} / {activities.length}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
