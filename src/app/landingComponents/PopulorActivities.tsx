@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import { FaStar } from 'react-icons/fa';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { ActivitiesArray } from '@/lib/types';
 import styles from './PopularActivities.module.css';
-import Link from 'next/link';
 
 interface Props {
   activities: ActivitiesArray;
@@ -34,23 +34,6 @@ export default function PopularActivities({ activities }: Props) {
     return () => window.removeEventListener('resize', updateSize);
   }, []);
 
-  // 인기 체험 목록 평점 내림차순 정렬
-  const sortedActivities = useMemo(() => {
-    return [...activities].sort((a, b) => {
-      const ratingA = a.rating ?? 0;
-      const ratingB = b.rating ?? 0;
-      return ratingB - ratingA; // 평점 내림차순
-    });
-  }, [activities]);
-
-  // 인기목록 자동 스크롤
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % sortedActivities.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [sortedActivities]); // sortedActivities 의존성 추가
-
   // 이미지 로드 실패 시 기본 이미지로 변경
   const handleImageError = (id: number) => {
     setImageSrcMap((prev) => ({
@@ -59,17 +42,33 @@ export default function PopularActivities({ activities }: Props) {
     }));
   };
 
-  // 다음으로 넘김
-  const nextSlide = () => {
-    setIndex((prev) => (prev + 1) % sortedActivities.length);
-  };
+  // 슬라이드 이동 (1개씩)
+  const nextSlide = useCallback(() => {
+    setIndex((prev) => (prev + 1) % activities.length); // 하나씩 넘기고, 마지막을 넘기면 첫 번째로 돌아감
+  }, [activities.length]);
 
   // 이전으로 돌아감
-  const prevSlide = () => {
-    setIndex(
-      (prev) => (prev - 1 + sortedActivities.length) % sortedActivities.length,
-    );
+  const prevSlide = useCallback(() => {
+    setIndex((prev) => (prev - 1 + activities.length) % activities.length); // 하나씩 넘기고, 첫 번째를 넘기면 마지막으로 돌아감
+  }, [activities.length]);
+
+  // 데이터 슬라이드 시 itemSize 갯수만큼 보여주기
+  const getVisibleActivities = () => {
+    const start = index;
+    const end = start + itemsSize;
+    return activities
+      .slice(start, end)
+      .concat(activities.slice(0, Math.max(0, end - activities.length)));
   };
+
+  // 자동 슬라이드
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 4000);
+
+    return () => clearInterval(interval); // 컴포넌트가 unmount될 때 interval을 clear
+  }, [activities, nextSlide]); // activities.length와 nextSlide를 의존성으로 추가
 
   return (
     <div className={styles.container}>
@@ -88,51 +87,41 @@ export default function PopularActivities({ activities }: Props) {
 
       {/* 인기 체험 목록 */}
       <div className={styles.carousel}>
-        {sortedActivities
-          .slice(index, index + itemsSize)
-          .concat(
-            index + itemsSize > sortedActivities.length
-              ? sortedActivities.slice(
-                  0,
-                  (index + itemsSize) % sortedActivities.length,
-                )
-              : [],
-          )
-          .map((activity) => (
-            <div key={activity.id} className={styles.card}>
-              <Link href={`/activities/${activity.id}`}>
-                <div className={styles.activityImage}>
-                  <Image
-                    src={
-                      imageSrcMap[activity.id] ||
-                      activity.bannerImageUrl ||
-                      '/images/no_thumbnail.png'
-                    }
-                    alt={activity.title || '체험 이미지 입니다.'}
-                    fill
-                    style={{ objectFit: 'cover' }}
-                    priority
-                    onError={() => handleImageError(activity.id)}
-                  />
-                </div>
-                <div className={styles.info}>
-                  {/* 평점 */}
-                  <div className={styles.activitiesRating}>
-                    <FaStar color='var(--yellow)' size={14} />
-                    <p>
-                      {activity.rating ?? 0}
-                      <span> ({activity.reviewCount})</span>
-                    </p>
-                  </div>
-
-                  <h3>{activity.title}</h3>
-                  <p className={styles.price}>
-                    ₩ {activity.price?.toLocaleString()} <span>/ 인</span>
+        {getVisibleActivities().map((activity) => (
+          <div key={activity.id} className={styles.card}>
+            <Link href={`/activities/${activity.id}`}>
+              <div className={styles.activityImage}>
+                <Image
+                  src={
+                    imageSrcMap[activity.id] ||
+                    activity.bannerImageUrl ||
+                    '/images/no_thumbnail.png'
+                  }
+                  alt={activity.title || '체험 이미지 입니다.'}
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  priority
+                  onError={() => handleImageError(activity.id)}
+                />
+              </div>
+              <div className={styles.info}>
+                {/* 평점 */}
+                <div className={styles.activitiesRating}>
+                  <FaStar color='var(--yellow)' size={14} />
+                  <p>
+                    {activity.rating ?? 0}
+                    <span> ({activity.reviewCount})</span>
                   </p>
                 </div>
-              </Link>
-            </div>
-          ))}
+
+                <h3>{activity.title}</h3>
+                <p className={styles.price}>
+                  ₩ {activity.price?.toLocaleString()} <span>/ 인</span>
+                </p>
+              </div>
+            </Link>
+          </div>
+        ))}
       </div>
     </div>
   );
