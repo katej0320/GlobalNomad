@@ -27,10 +27,11 @@ export default function ReservationInfoModal({
   );
 
   // 선택된 활동&날짜로 해당 날짜의 스케줄 불러옴
-  const { data: scheduleList = [], error } = useReservationSchedules(
-    activityId,
-    date,
-  );
+  const {
+    data: scheduleList = [],
+    isLoading,
+    error,
+  } = useReservationSchedules(activityId, date);
 
   const modalRef = useRef<HTMLDivElement | null>(null);
 
@@ -59,7 +60,7 @@ export default function ReservationInfoModal({
     0,
   );
 
-  /** @TODO 로딩 화면 */
+  if (isLoading) return <p>로딩 중...</p>;
   if (error) return <p>{error.message}</p>;
 
   return (
