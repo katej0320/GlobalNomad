@@ -186,9 +186,14 @@
   color: var(--gray-muted);
   font-size: 12px;
   font-weight: 400;
+  margin-top: 10px;
   margin-right: 10px;
   
-  @media (max-width: 550px) {
+  @media (max-width: 620px) {
+    margin-top: 0;
     margin-right: 0;
+  }
+  @media (max-width: 450px) {
+    margin-right: 10px;
   }
 }
