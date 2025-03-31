@@ -20,18 +20,18 @@ const tab = [
     activeImg: '/images/icon_menu1_active.svg',
   },
   {
-    key: 'myactivities',
-    label: '내 체험 관리',
-    href: '/myactivities',
+    key: 'myreservation',
+    label: '예약 내역',
+    href: '/myreservation',
     img: '/images/icon_menu2.svg',
     activeImg: '/images/icon_menu2_active.svg',
   },
   {
-    key: 'myreservation',
-    label: '예약 내역',
-    href: '/myreservation',
+    key: 'myactivities',
+    label: '내 체험 관리',
+    href: '/myactivities',
     img: '/images/icon_menu3.svg',
-    activeImg: '/images/icon_menu3_active.svg',
+    activeImg: '/images/icon_menu2_active.svg',
   },
   {
     key: 'mynotification',
@@ -69,11 +69,7 @@ const ProfileCard = ({
     <div className={styles.card}>
       <div className={styles.imageWrapper}>
         <Image
-<<<<<<< HEAD
-          src={profileImage || '/images/defaultProfile.svg'}
-=======
           src={user?.profileImageUrl || '/images/defaultProfile.svg'}
->>>>>>> 319a7ef21062f226f0ecbbc5016fc26f5065eb07
           alt='프로필 이미지'
           width={160}
           height={160}
