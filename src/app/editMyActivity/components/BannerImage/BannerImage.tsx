@@ -1,10 +1,11 @@
 'use client';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
 import { Plus, X } from 'lucide-react';
 import styles from './postImage.module.css';
 import Image from 'next/image';
 import { useActivityStore } from '@/stores/useActivityStore';
-import useUploadImagesMutation from '@/hooks/query/useImageUrl';
+import useUploadImagesMutation from '@/hooks/useImageUrl';
 
 export default function BannerImage() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -28,7 +29,7 @@ export default function BannerImage() {
     formData.append('image', file);
 
     uploadImages(formData, {
-      onSuccess: (data: any) => {  // eslint-disable-line @typescript-eslint/no-explicit-any
+      onSuccess: (data: any) => {
         useActivityStore.getState().setActivity({
           bannerImageUrl: data.activityImageUrl,
         });
