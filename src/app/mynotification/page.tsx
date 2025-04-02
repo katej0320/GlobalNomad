@@ -4,7 +4,7 @@ import { useEffect, useState, useMemo } from 'react';
 import Dropdown from '@/components/Dropdown';
 import MyNotificationCalendar from './components/Calendar';
 import ReservationInfoModal from './components/ReservationInfoModal';
-import useMyActivities from '@/hooks/query/useMyActivities';
+import useMyActivitiesCalendar from '@/hooks/query/useMyActivitiesCalendar';
 import useScheduleByMonth from '@/hooks/query/useScheduleByMonth';
 import ProfileCard from '@/components/ProfileCard/ProfileCard';
 import Footer from '@/components/footer/Footer';
@@ -20,7 +20,7 @@ export default function MyNotification() {
     data: activities = [],
     isLoading: isActivitiesLoading,
     error: activitiesError,
-  } = useMyActivities() as {
+  } = useMyActivitiesCalendar() as {
     data: Activity[];
     isLoading: boolean;
     error: unknown;
