@@ -1,6 +1,6 @@
 import { SetStateAction } from 'react';
 import CustomModal from './CustomModal';
-import CancelModal from '@/app/ex/components/CancelModal';
+import CancelModal from '@/app/myreservation/components/CancelModal';
 import { Reservation } from '@/lib/types';
 
 interface Props {
