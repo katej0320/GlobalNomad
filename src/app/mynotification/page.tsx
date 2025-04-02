@@ -18,7 +18,7 @@ type Activity = {
 export default function MyNotification() {
   const {
     data: activities = [],
-    //isLoading: isActivitiesLoading,
+    isLoading: isActivitiesLoading,
     error: activitiesError,
   } = useMyActivities() as {
     data: Activity[];
@@ -69,8 +69,6 @@ export default function MyNotification() {
   };
 
   // 로딩 및 에러 처리
-  //if (isActivitiesLoading || isScheduleLoading) return <p>로딩 중...</p>;
-
   const errorMessage =
     (activitiesError instanceof Error ? activitiesError.message : '') ||
     (scheduleError instanceof Error ? scheduleError.message : '');
@@ -103,7 +101,6 @@ export default function MyNotification() {
               setSelectedActivity(selected);
             }}
           />
-
           {selectedActivity && (
             <>
               <MyNotificationCalendar
@@ -112,6 +109,7 @@ export default function MyNotification() {
                 onMonthChange={handleMonthChange}
                 onDateClick={handleDateClick}
                 activityId={selectedActivity.id}
+                isLoading={isActivitiesLoading}
               />
 
               {selectedDate && (
