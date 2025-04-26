@@ -1,5 +1,8 @@
 # GlobalNomad
-![대표이미지](https://velog.velcdn.com/images/keyboy/post/7a2b9b12-532f-4bf4-b355-3dfc055496d5/image.png)(https://globalnomad-t2.vercel.app/)
+<p align="center">
+   <a href="https://globalnomad-t2.vercel.app/">
+  <img src="https://raw.githubusercontent.com/T2-GlobalNomad/GlobalNomad/main/public/images/auth_logo.svg" width="30%" />
+</p>
 
 <br/>
 <br/>
