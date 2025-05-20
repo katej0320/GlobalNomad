@@ -56,6 +56,19 @@ $ npm run
   On edit, server-stored images were preloaded and normalized into `File` objects to ensure state consistency.  
   Addressed SSR issues with `next/image` by deferring rendering logic into `useEffect`, maintaining stability during hydration.
 
+---
+
+# Demo Videos
+![1-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/d52c11b1-5a62-4b5d-8f56-f6e6fd7d01ba)
+
+![2-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/e125d967-39ec-45cf-b47b-b2e87e284c61)
+
+![4-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/925e0c57-689f-4017-a3ea-a6a83a94966f)
+
+![5-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/de95bada-df4b-4794-bd1a-43dfd4b889b8)
+
+
+---
 
 # 4. Key Features
 
