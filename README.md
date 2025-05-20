@@ -41,14 +41,21 @@ $ npm run
 <br/>
 
 # 3. My Contributions 
-Built Multi-Step Activity Creation & Editing Flow
-Implemented a multi-step form for posting and editing activities using Zustand for persistent global state and React Query for seamless server communication. Used setQueryData to instantly reflect changes in the UI without waiting for API responses, ensuring smooth user experience and data continuity across steps.
 
-Implemented Infinite Scrolling with React Query
-Built an infinite scroll system using useInfiniteQuery and IntersectionObserver. Pagination was controlled via a nextCursor approach, and unnecessary network calls were avoided using hasNextPage. Scroll logic was abstracted into a custom reusable hook, resulting in a clean and efficient solution.
+- **Built Multi-Step Activity Creation & Editing Flow**  
+  Implemented a multi-step form for posting and editing activities using **Zustand** for persistent global state and **React Query** for seamless server communication.  
+  Used `setQueryData` to optimistically update the UI without waiting for API responses, ensuring smooth user experience and data continuity across steps.
 
-Image Upload & Preview System
-Developed an image upload and preview feature using Zustand and URL.createObjectURL() to handle real-time previews. On edit, preloaded server images were converted to File objects for consistent local state. Resolved SSR issues with next/image by deferring preview rendering logic to useEffect.
+- **Implemented Infinite Scrolling with React Query**  
+  Developed infinite scroll functionality using `useInfiniteQuery` and **IntersectionObserver**.  
+  Pagination was managed with a `nextCursor` approach, and redundant requests were avoided using `hasNextPage`.  
+  Scroll detection and fetch logic were encapsulated in a reusable custom hook for maintainability.
+
+- **Image Upload & Preview System**  
+  Built a real-time image upload and preview feature using **Zustand** and `URL.createObjectURL()`.  
+  On edit, server-stored images were preloaded and normalized into `File` objects to ensure state consistency.  
+  Addressed SSR issues with `next/image` by deferring rendering logic into `useEffect`, maintaining stability during hydration.
+
 
 # 4. Key Features
 
