@@ -40,7 +40,17 @@ $ npm run
 <br/>
 <br/>
 
-# 3. Key Features
+# 3. My Contributions (Jang Bobae)
+Built Multi-Step Activity Creation & Editing Flow
+Implemented a multi-step form for posting and editing activities using Zustand for persistent global state and React Query for seamless server communication. Used setQueryData to instantly reflect changes in the UI without waiting for API responses, ensuring smooth user experience and data continuity across steps.
+
+Implemented Infinite Scrolling with React Query
+Built an infinite scroll system using useInfiniteQuery and IntersectionObserver. Pagination was controlled via a nextCursor approach, and unnecessary network calls were avoided using hasNextPage. Scroll logic was abstracted into a custom reusable hook, resulting in a clean and efficient solution.
+
+Image Upload & Preview System
+Developed an image upload and preview feature using Zustand and URL.createObjectURL() to handle real-time previews. On edit, preloaded server images were converted to File objects for consistent local state. Resolved SSR issues with next/image by deferring preview rendering logic to useEffect.
+
+# 4. Key Features
 
 ### 🔐 User Authentication
 
@@ -86,7 +96,7 @@ $ npm run
 <br/>
 <br/>
 
-# 4. Technology Stack
+# 5. Technology Stack
 
 - **Language**
 
@@ -129,7 +139,7 @@ $ npm run
 
 <br/>
 
-# 5. Project Structure 
+# 6. Project Structure 
 
 ```plaintext
 GLOBALNOMAD/
@@ -184,7 +194,7 @@ GLOBALNOMAD/
 <br/>
 <br/>
 
-# 6. Development Workflow
+# 7. Development Workflow
 ## Branch Strategy
 
 - **`main` branch**
