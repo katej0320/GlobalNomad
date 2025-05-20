@@ -40,7 +40,7 @@ $ npm run
 <br/>
 <br/>
 
-# 3. My Contributions (Jang Bobae)
+# 3. My Contributions 
 Built Multi-Step Activity Creation & Editing Flow
 Implemented a multi-step form for posting and editing activities using Zustand for persistent global state and React Query for seamless server communication. Used setQueryData to instantly reflect changes in the UI without waiting for API responses, ensuring smooth user experience and data continuity across steps.
 
